@@ -1,13 +1,14 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>BoltProof Internal</title>
+  <title>BoltProof – Services</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont;
-      background: #f5f7fa;
+      background: #0f172a;
+      color: #e5e7eb;
       padding: 40px;
       max-width: 900px;
       margin: auto;
@@ -16,7 +17,7 @@
       margin-bottom: 6px;
     }
     .sub {
-      color: #666;
+      color: #9ca3af;
       margin-bottom: 24px;
     }
     .grid {
@@ -25,34 +26,48 @@
       gap: 16px;
     }
     a {
-      background: white;
+      background: #111827;
       padding: 18px;
       border-radius: 14px;
       text-decoration: none;
-      color: #111;
-      box-shadow: 0 6px 16px rgba(0,0,0,.08);
+      color: #e5e7eb;
+      box-shadow: 0 6px 16px rgba(0,0,0,.4);
       transition: transform .1s ease, box-shadow .1s ease;
+      border: 1px solid #1f2937;
     }
     a:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 22px rgba(0,0,0,.12);
+      box-shadow: 0 10px 22px rgba(0,0,0,.6);
     }
     .icon {
       font-size: 20px;
       margin-right: 8px;
     }
+    footer {
+      margin-top: 28px;
+      font-size: 13px;
+      color: #9ca3af;
+    }
+    .warn {
+      background: #1f2937;
+      border-left: 4px solid #f59e0b;
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin-bottom: 24px;
+      color: #fde68a;
+    }
   </style>
 </head>
 <body>
 
-  <h1>🔐 BoltProof – Internal</h1>
-  <div class="sub">Accessible only when connected via Tailscale</div>
+  <h1>🔐 BoltProof</h1>
+  <div class="sub">Internal services (LAN / Tailscale required)</div>
+
+  <div class="warn">
+    ⚠️ These links only work when you are connected to your home network or Tailscale.
+  </div>
 
   <div class="grid">
-    <a href="http://192.168.50.115:5000">
-      <span class="icon">🛡️</span> DSM
-    </a>
-
     <a href="http://192.168.50.115:7878">
       <span class="icon">🎬</span> Radarr
     </a>
@@ -69,6 +84,10 @@
       <span class="icon">⬇️</span> SABnzbd
     </a>
   </div>
+
+  <footer>
+    Access is restricted by network routing — nothing is exposed to the public internet.
+  </footer>
 
 </body>
 </html>
