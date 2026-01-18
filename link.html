@@ -2,73 +2,25 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>BoltProof Internal</title>
+  <title>BoltProof Links</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont;
-      background: #f5f7fa;
-      padding: 40px;
-      max-width: 900px;
-      margin: auto;
-    }
-    h1 {
-      margin-bottom: 6px;
-    }
-    .sub {
-      color: #666;
-      margin-bottom: 24px;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-    }
-    a {
-      background: white;
-      padding: 18px;
-      border-radius: 14px;
-      text-decoration: none;
-      color: #111;
-      box-shadow: 0 6px 16px rgba(0,0,0,.08);
-      transition: transform .1s ease, box-shadow .1s ease;
-    }
-    a:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 22px rgba(0,0,0,.12);
-    }
-    .icon {
-      font-size: 20px;
-      margin-right: 8px;
-    }
+    body { font-family: system-ui; padding:40px; max-width:800px; margin:auto }
+    a { display:block; padding:14px; margin-bottom:12px; border:1px solid #ddd; border-radius:12px; text-decoration:none; color:#111 }
+    a:hover { background:#f5f5f5 }
+    .note { color:#666; font-size:14px }
   </style>
 </head>
 <body>
 
-  <h1>🔐 BoltProof – Internal</h1>
-  <div class="sub">Accessible only when connected via Tailscale</div>
+<h1>BoltProof – Links</h1>
+<p class="note">These links require Tailscale to be connected.</p>
 
-  <div class="grid">
-    <a href="http://192.168.50.115:5000">
-      <span class="icon">🛡️</span> DSM
-    </a>
-
-    <a href="http://192.168.50.115:7878">
-      <span class="icon">🎬</span> Radarr
-    </a>
-
-    <a href="http://192.168.50.115:8989">
-      <span class="icon">📺</span> Sonarr
-    </a>
-
-    <a href="http://192.168.50.115:9696">
-      <span class="icon">🔎</span> Prowlarr
-    </a>
-
-    <a href="http://192.168.50.115:8777">
-      <span class="icon">⬇️</span> SABnzbd
-    </a>
-  </div>
+<a href="http://internal.boltproof.com:7878">🎬 Radarr</a>
+<a href="http://internal.boltproof.com:8989">📺 Sonarr</a>
+<a href="http://internal.boltproof.com:9696">🔎 Prowlarr</a>
+<a href="http://internal.boltproof.com:8777">⬇️ SABnzbd</a>
+<a href="http://internal.boltproof.com:5000">🛡️ DSM</a>
 
 </body>
 </html>
