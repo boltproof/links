@@ -50,43 +50,43 @@
     }
     .warn {
       background: #1f2937;
-      border-left: 4px solid #f59e0b;
+      border-left: 4px solid #22c55e;
       padding: 12px 16px;
       border-radius: 10px;
       margin-bottom: 24px;
-      color: #fde68a;
+      color: #bbf7d0;
     }
   </style>
 </head>
 <body>
 
   <h1>🔐 BoltProof</h1>
-  <div class="sub">Internal services (LAN / Tailscale required)</div>
+  <div class="sub">Tailscale-only services</div>
 
   <div class="warn">
-    ⚠️ These links only work when you are connected to your home network or Tailscale.
+    ✅ These links work only when you are connected to Tailscale.
   </div>
 
   <div class="grid">
-    <a href="http://192.168.50.115:7878">
+    <a href="http://100.91.121.17:7878">
       <span class="icon">🎬</span> Radarr
     </a>
 
-    <a href="http://192.168.50.115:8989">
+    <a href="http://100.91.121.17:8989">
       <span class="icon">📺</span> Sonarr
     </a>
 
-    <a href="http://192.168.50.115:9696">
+    <a href="http://100.91.121.17:9696">
       <span class="icon">🔎</span> Prowlarr
     </a>
 
-    <a href="http://192.168.50.115:8777">
+    <a href="http://100.91.121.17:8777">
       <span class="icon">⬇️</span> SABnzbd
     </a>
   </div>
 
   <footer>
-    Access is restricted by network routing — nothing is exposed to the public internet.
+    Services are reachable only via the Tailscale network.
   </footer>
 
 </body>
