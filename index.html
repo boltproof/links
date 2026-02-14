@@ -1,3 +1,7 @@
+Perfect — updated. SABnzbd now points to :8777 (Dubai host).
+
+Paste this full index.html:
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,7 +39,7 @@
     body.dark{background:#020617;color:var(--bp-text)}
     .container{max-width:1120px;margin:0 auto;padding:0 16px}
 
-    /* ===== TOP BAR ===== */
+    /* ===== HEADER (2-ROW LAYOUT TO PREVENT OVERLAP) ===== */
     header{
       position: sticky;
       top: 0;
@@ -45,20 +49,19 @@
       backdrop-filter: blur(10px);
     }
 
-    .topbar{
+    .header-wrap{padding:14px 0 12px}
+    .row1{
       display:flex;
-      align-items:flex-start; /* ✅ FIX: prevents nav overlapping subtitle */
+      align-items:flex-start;
       justify-content:space-between;
       gap:14px;
-      padding:14px 0 12px;
     }
 
     .brand{
       display:flex;align-items:flex-start;gap:12px;
-      flex:0 0 auto;
       color:#E5E7EB;text-decoration:none;
       min-width:0;
-      max-width:320px;
+      max-width:520px;
     }
     .brand img{
       width:56px;height:56px;object-fit:contain;
@@ -86,38 +89,16 @@
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
-      max-width:240px;
+      max-width:420px;
     }
-
-    /* Desktop nav */
-    .nav-links{
-      flex:1 1 auto;
-      min-width:0;
-      display:flex;
-      justify-content:center;
-      align-items:flex-start;  /* ✅ align to top */
-      gap:14px;
-      white-space:nowrap;
-      padding-top:8px;         /* ✅ moves nav down away from brand subtitle */
-    }
-    .nav-links a{
-      color:rgba(229,231,235,.82);
-      font-weight:850;
-      font-size:14px;
-      text-decoration:none;
-      padding:8px 12px;
-      border-radius:12px;
-      transition: background .15s ease, color .15s ease;
-    }
-    .nav-links a:hover{background:rgba(255,255,255,.06);color:#fff;}
 
     .nav-actions{
-      flex:0 0 auto;
       display:flex;
-      align-items:flex-start;  /* ✅ align to top */
+      align-items:flex-start;
       gap:12px;
       white-space:nowrap;
-      padding-top:6px;         /* ✅ keeps buttons aligned with nav */
+      padding-top:6px;
+      flex:0 0 auto;
     }
 
     .btn{
@@ -128,7 +109,6 @@
       transition:transform .12s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
     }
 
-    /* CTA like your main site */
     .btn-cta{
       background: linear-gradient(180deg, #3B82F6, #1D4ED8);
       color:#fff;
@@ -168,10 +148,35 @@
     .kid-on .switch{background:rgba(34,197,94,.60)}
     .kid-on .switch::after{left:18px}
 
-    /* anchor offset so section titles never hide behind sticky header */
-    .section{ scroll-margin-top: 170px; }
+    /* Row 2: nav (desktop) */
+    .row2{
+      margin-top:10px;
+      border-top:1px solid rgba(148,163,184,.14);
+      padding-top:10px;
+      display:flex;
+      justify-content:center;
+    }
 
-    /* ===== MOBILE MENU ===== */
+    .nav-links{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:14px;
+      white-space:nowrap;
+      flex-wrap:wrap;
+    }
+    .nav-links a{
+      color:rgba(229,231,235,.82);
+      font-weight:850;
+      font-size:14px;
+      text-decoration:none;
+      padding:8px 12px;
+      border-radius:12px;
+      transition: background .15s ease, color .15s ease;
+    }
+    .nav-links a:hover{background:rgba(255,255,255,.06);color:#fff;}
+
+    /* Mobile menu */
     .menu-btn{display:none}
     .menu-panel{
       display:none;
@@ -192,9 +197,12 @@
     .menu-panel a:hover{background:rgba(255,255,255,.06);color:#fff}
     .menu-panel small{color:rgba(229,231,235,.55);font-weight:800}
 
+    /* anchor offset so section titles never hide behind sticky header */
+    .section{ scroll-margin-top: 220px; }
+
     /* ===== HERO ===== */
     .hero{
-      padding:56px 0 22px;
+      padding:42px 0 22px;
       background:
         radial-gradient(circle at top left, rgba(102,153,255,0.22), transparent 55%),
         radial-gradient(circle at bottom right, rgba(56,189,248,0.16), transparent 60%);
@@ -254,8 +262,8 @@
       background:rgba(2,6,23,.75);
       border-color:rgba(148,163,184,.18);
     }
-    .dot{width:8px;height:8px;border-radius:999px;background:var(--warn);box-shadow:0 0 0 4px rgba(245,158,11,.14)}
-    .dot.ok{background:var(--ok);box-shadow:0 0 0 4px rgba(34,197,94,.14)}
+    .dot{width:8px;height:8px;border-radius:999px;background:#F59E0B;box-shadow:0 0 0 4px rgba(245,158,11,.14)}
+    .dot.ok{background:#22C55E;box-shadow:0 0 0 4px rgba(34,197,94,.14)}
 
     .search{display:flex;gap:10px;align-items:center;margin-top:12px}
     .search input{
@@ -372,14 +380,10 @@
       .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .brand .subtitle{display:none}
     }
-
     @media (max-width:1020px){
-      .nav-links{display:none}
+      .row2{display:none} /* nav becomes mobile menu */
       .menu-btn{display:inline-flex}
-      .nav-actions{padding-top:2px;}
-      .topbar{padding:12px 0 10px;}
     }
-
     @media (max-width:640px){
       h1{font-size:28px}
       .grid{grid-template-columns:minmax(0,1fr)}
@@ -391,46 +395,52 @@
 <body>
 <header id="siteHeader">
   <div class="container">
-    <div class="topbar">
-      <a class="brand" href="https://boltproof.com" title="Back to boltproof.com">
-        <img src="https://boltproof.com/assets/BoltProof%20Original%20Logo.png" alt="BoltProof">
-        <div>
-          <div class="title">BoltProof</div>
-          <div class="subtitle">Backup · Synology · Small-Environment IT</div>
+    <div class="header-wrap">
+
+      <div class="row1">
+        <a class="brand" href="https://boltproof.com" title="Back to boltproof.com">
+          <img src="https://boltproof.com/assets/BoltProof%20Original%20Logo.png" alt="BoltProof">
+          <div>
+            <div class="title">BoltProof</div>
+            <div class="subtitle">Backup · Synology · Small-Environment IT</div>
+          </div>
+        </a>
+
+        <div class="nav-actions">
+          <button type="button" class="btn pill-btn menu-btn" id="menuToggle" aria-expanded="false" aria-controls="menuPanel">
+            <span>☰ Menu</span>
+          </button>
+
+          <a class="btn btn-cta" href="https://cal.com/boltproof" target="_blank" rel="noopener">Book a consultation</a>
+
+          <button type="button" class="btn pill-btn" id="kidToggle" aria-pressed="false" title="Hide admin tools for family">
+            <span>Kid Mode</span>
+            <span class="switch" aria-hidden="true"></span>
+          </button>
+
+          <button type="button" class="btn pill-btn" id="themeToggle" title="Toggle theme">
+            <span id="themeIcon">🌙</span>
+            <span id="themeLabel">Dark</span>
+          </button>
         </div>
-      </a>
-
-      <nav class="nav-links" aria-label="Media portal sections">
-        <a href="#section-family">Request &amp; Watch</a>
-        <a href="#section-arr">Arr Stack</a>
-        <a href="#section-admin">Automation &amp; Downloads</a>
-        <a href="#section-useful">Useful Links</a>
-      </nav>
-
-      <div class="nav-actions">
-        <button type="button" class="btn pill-btn menu-btn" id="menuToggle" aria-expanded="false" aria-controls="menuPanel">
-          <span>☰ Menu</span>
-        </button>
-
-        <a class="btn btn-cta" href="https://cal.com/boltproof" target="_blank" rel="noopener">Book a consultation</a>
-
-        <button type="button" class="btn pill-btn" id="kidToggle" aria-pressed="false" title="Hide admin tools for family">
-          <span>Kid Mode</span>
-          <span class="switch" aria-hidden="true"></span>
-        </button>
-
-        <button type="button" class="btn pill-btn" id="themeToggle" title="Toggle theme">
-          <span id="themeIcon">🌙</span>
-          <span id="themeLabel">Dark</span>
-        </button>
       </div>
-    </div>
 
-    <div class="menu-panel" id="menuPanel">
-      <a href="#section-family" class="menu-link">Request &amp; Watch <small>Jelly / Plex</small></a>
-      <a href="#section-arr" class="menu-link">Arr Stack <small>Sonarr / Radarr / Prowlarr…</small></a>
-      <a href="#section-admin" class="menu-link">Automation &amp; Downloads <small>qBittorrent</small></a>
-      <a href="#section-useful" class="menu-link">Useful Links <small>DSM / MusicBrainz</small></a>
+      <div class="row2">
+        <nav class="nav-links" aria-label="Media portal sections">
+          <a href="#section-family">Request &amp; Watch</a>
+          <a href="#section-arr">Arr Stack</a>
+          <a href="#section-admin">Automation &amp; Downloads</a>
+          <a href="#section-useful">Useful Links</a>
+        </nav>
+      </div>
+
+      <div class="menu-panel" id="menuPanel">
+        <a href="#section-family" class="menu-link">Request &amp; Watch <small>Jelly / Plex</small></a>
+        <a href="#section-arr" class="menu-link">Arr Stack <small>Sonarr / Radarr / Prowlarr…</small></a>
+        <a href="#section-admin" class="menu-link">Automation &amp; Downloads <small>qBittorrent / SABnzbd</small></a>
+        <a href="#section-useful" class="menu-link">Useful Links <small>DSM / MusicBrainz</small></a>
+      </div>
+
     </div>
   </div>
 </header>
@@ -454,10 +464,10 @@
             </div>
 
             <div class="search">
-              <input id="search" type="text" placeholder="Search apps… (jelly, sonarr, radarr, prowlarr, qbit…)" autocomplete="off" />
+              <input id="search" type="text" placeholder="Search apps… (jelly, sonarr, radarr, prowlarr, qbit, sab…)" autocomplete="off" />
             </div>
 
-            <div class="hint" id="resultsHint">Tip: type “prowlarr” or “qbit” to jump quickly.</div>
+            <div class="hint" id="resultsHint">Tip: type “prowlarr”, “qbit” or “sab” to jump quickly.</div>
           </div>
 
           <div class="callout">
@@ -628,6 +638,18 @@
               <button class="btn btn-small btn-copy" id="qbitCopy" data-copy="">Copy link</button>
             </div>
           </div>
+
+          <div class="card app-card admin-card" data-name="sab sabnzbd usenet downloads downloader">
+            <div class="card-top">
+              <div class="app"><div class="icon">📥</div><div style="min-width:0;"><div class="app-name">SABnzbd</div><div class="app-desc">Usenet download client</div></div></div>
+              <div class="badge"><span class="dot"></span> Usenet</div>
+            </div>
+            <div class="muted" style="font-size:13px;">Used by Arr apps when usenet indexers are configured.</div>
+            <div class="actions">
+              <a class="btn btn-small btn-open" id="sabOpen" href="#" target="_blank" rel="noopener">Open</a>
+              <button class="btn btn-small btn-copy" id="sabCopy" data-copy="">Copy link</button>
+            </div>
+          </div>
         </div>
 
         <div class="hint">Kid Mode hides Arr Stack + Admin for family.</div>
@@ -686,7 +708,7 @@
 
 <footer>
   <div class="container">
-    <div class="footer-row">
+    <div class="footer-row" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;">
       <div>© <span id="year"></span> BoltProof</div>
       <div class="muted">Tailscale-only portal</div>
     </div>
@@ -711,6 +733,7 @@
     bazarr:     `${DUBAI_HOST}:6767/series`,
 
     qbittorrent:`${DUBAI_HOST}:8081`,
+    sabnzbd:    `${DUBAI_HOST}:8777/`,  // ✅ UPDATED
 
     dsmDubai:   `${DUBAI_HOST}:5000/`,
     dsmIreland: `${IRELAND_HOST}:5000/`
@@ -730,7 +753,7 @@
       panel.style.display = open ? 'block' : 'none';
     }
 
-    btn.addEventListener('click', () => setOpen(!header.classList.contains('menu-open')));
+    btn && btn.addEventListener('click', () => setOpen(!header.classList.contains('menu-open')));
     document.querySelectorAll('.menu-link').forEach(a=>a.addEventListener('click', ()=>setOpen(false)));
     document.addEventListener('click', (e)=>{ if (!header.contains(e.target)) setOpen(false); });
     setOpen(false);
@@ -802,6 +825,7 @@
   setLink("bazarrOpen","bazarrCopy", URLS.bazarr);
 
   setLink("qbitOpen","qbitCopy", URLS.qbittorrent);
+  setLink("sabOpen","sabCopy", URLS.sabnzbd);
 
   setLink("dsmDubaiOpen","dsmDubaiCopy", URLS.dsmDubai);
   setLink("dsmIrelandOpen","dsmIrelandCopy", URLS.dsmIreland);
@@ -850,7 +874,7 @@
       if (visible) shown++;
       card.style.display = visible ? "" : "none";
     });
-    if (!query) hint.textContent = "Tip: type “prowlarr” or “qbit” to jump quickly.";
+    if (!query) hint.textContent = "Tip: type “prowlarr”, “qbit” or “sab” to jump quickly.";
     else hint.textContent = shown ? `${shown} match${shown===1?"":"es"} for “${q}”.` : `No matches for “${q}”.`;
   }
   search.addEventListener('input', (e)=>applyFilter(e.target.value));
