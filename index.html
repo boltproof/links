@@ -130,22 +130,47 @@
       text-decoration: none;
     }
 
-    .theme-toggle {
+    .theme-toggle, .kid-toggle {
       border-radius: 999px;
       border: 1px solid #CBD5F5;
       padding: 8px 12px;
       font-size: 12px;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       background: #FFFFFF;
       cursor: pointer;
     }
-    body.dark .theme-toggle {
+    body.dark .theme-toggle, body.dark .kid-toggle {
       border-color: #1F2937;
       background: #020617;
       color: #E5E7EB;
     }
+
+    /* Kid switch look */
+    .switch {
+      width: 38px;
+      height: 22px;
+      border-radius: 999px;
+      background: rgba(148,163,184,0.65);
+      position: relative;
+      flex: 0 0 auto;
+      transition: background 0.15s ease;
+    }
+    .switch::after {
+      content: "";
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      background: #fff;
+      transition: left 0.15s ease;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.20);
+    }
+    .kid-on .switch { background: rgba(34,197,94,0.75); }
+    .kid-on .switch::after { left: 18px; }
 
     main { padding-bottom: 46px; }
 
@@ -236,7 +261,6 @@
       margin-top: 2px;
     }
     .dot.ok { background: var(--ok); box-shadow: 0 0 0 4px rgba(34,197,94,0.15); }
-    .dot.danger { background: var(--danger); box-shadow: 0 0 0 4px rgba(239,68,68,0.12); }
 
     .search {
       display: flex;
@@ -392,6 +416,8 @@
     .hint { margin-top: 10px; font-size: 12px; color: #6B7280; }
     body.dark .hint { color: #9CA3AF; }
 
+    .kid-hidden { display: none !important; }
+
     .toast {
       position: fixed;
       left: 50%;
@@ -464,6 +490,12 @@
 
       <div class="nav-right">
         <a class="btn btn-primary" href="https://boltproof.com" title="Back to main site">boltproof.com</a>
+
+        <button type="button" class="kid-toggle" id="kidToggle" aria-pressed="false" title="Hide admin tools for family">
+          <span id="kidLabel">Kid Mode</span>
+          <span class="switch" aria-hidden="true"></span>
+        </button>
+
         <button type="button" class="theme-toggle" id="themeToggle">
           <span id="themeIcon">🌙</span>
           <span id="themeLabel">Dark</span>
@@ -481,13 +513,13 @@
           <div>
             <h1>Media Portal</h1>
             <p class="muted" style="margin:0;">
-              Request in <strong>Jellyseerr</strong> → Arr stack grabs it → watch on <strong>Plex</strong>.
+              Request in <strong>Jellyseerr</strong> → it downloads automatically → watch on <strong>Plex</strong>.
             </p>
 
             <div class="pill-row" aria-label="Status">
               <div class="pill" title="These services require Tailscale / VPN access">
                 <span class="dot" id="vpnDot"></span>
-                <span id="vpnText">Tailscale likely required</span>
+                <span id="vpnText">Tailscale required</span>
               </div>
               <div class="pill" title="Quick tip for family">
                 <span>🎯</span>
@@ -500,7 +532,7 @@
             </div>
 
             <div class="search">
-              <input id="search" type="text" placeholder="Search apps… (e.g. jelly, radarr, subtitles, plex)" autocomplete="off" />
+              <input id="search" type="text" placeholder="Search apps… (e.g. jelly, plex, subtitles, qbittorrent)" autocomplete="off" />
             </div>
 
             <div class="hint" id="resultsHint">Tip: type “jelly” to find the request app fast.</div>
@@ -519,7 +551,7 @@
       </div>
 
       <!-- REQUEST + WATCH -->
-      <div class="section">
+      <div class="section" id="section-family">
         <div class="section-header">
           <div class="kicker">Recommended</div>
           <h2>Request & Watch</h2>
@@ -527,7 +559,6 @@
         </div>
 
         <div class="grid">
-
           <div class="card app-card" data-name="jellyseerr request requests movies tv" data-url="">
             <div class="card-top">
               <div class="app">
@@ -581,21 +612,20 @@
               <button class="btn btn-small btn-copy" id="plexIrelandCopy" data-copy="">Copy link</button>
             </div>
           </div>
-
         </div>
       </div>
 
-      <!-- ARR STACK -->
-      <div class="section">
+      <!-- ADMIN -->
+      <div class="section" id="section-admin">
         <div class="section-header">
-          <div class="kicker">Automation</div>
-          <h2>Arr Stack</h2>
+          <div class="kicker">Admin</div>
+          <h2>Automation & Downloads</h2>
           <div class="underline"></div>
         </div>
 
         <div class="grid">
 
-          <div class="card app-card" data-name="radarr movies automation" data-url="http://100.91.121.17:7878">
+          <div class="card app-card admin-card" data-name="radarr movies automation" data-url="http://100.91.121.17:7878">
             <div class="card-top">
               <div class="app">
                 <div class="icon">🎬</div>
@@ -613,7 +643,7 @@
             </div>
           </div>
 
-          <div class="card app-card" data-name="sonarr tv series automation" data-url="http://100.91.121.17:8989">
+          <div class="card app-card admin-card" data-name="sonarr tv series automation" data-url="http://100.91.121.17:8989">
             <div class="card-top">
               <div class="app">
                 <div class="icon">📺</div>
@@ -631,7 +661,7 @@
             </div>
           </div>
 
-          <div class="card app-card" data-name="prowlarr indexers search" data-url="http://100.91.121.17:9696">
+          <div class="card app-card admin-card" data-name="prowlarr indexers search" data-url="http://100.91.121.17:9696">
             <div class="card-top">
               <div class="app">
                 <div class="icon">🔎</div>
@@ -649,7 +679,7 @@
             </div>
           </div>
 
-          <div class="card app-card" data-name="lidarr music automation" data-url="">
+          <div class="card app-card admin-card" data-name="lidarr music automation" data-url="">
             <div class="card-top">
               <div class="app">
                 <div class="icon">🎧</div>
@@ -667,7 +697,7 @@
             </div>
           </div>
 
-          <div class="card app-card" data-name="bazarr subtitles series" data-url="">
+          <div class="card app-card admin-card" data-name="bazarr subtitles series" data-url="">
             <div class="card-top">
               <div class="app">
                 <div class="icon">💬</div>
@@ -685,7 +715,26 @@
             </div>
           </div>
 
-          <div class="card app-card" data-name="sabnzbd usenet downloader" data-url="http://100.91.121.17:8777">
+          <!-- qBittorrent -->
+          <div class="card app-card admin-card" data-name="qbittorrent qbit torrent torrents download client" data-url="">
+            <div class="card-top">
+              <div class="app">
+                <div class="icon">🧲</div>
+                <div style="min-width:0;">
+                  <div class="app-name">qBittorrent</div>
+                  <div class="app-desc">Torrent client (WebUI)</div>
+                </div>
+              </div>
+              <div class="badge"><span class="dot"></span> Client</div>
+            </div>
+            <div class="muted" style="font-size:13px;">Manage torrent queue, status, speed, and seeding.</div>
+            <div class="actions">
+              <a class="btn btn-small btn-open" id="qbitOpen" href="#" target="_blank" rel="noopener">Open</a>
+              <button class="btn btn-small btn-copy" id="qbitCopy" data-copy="">Copy link</button>
+            </div>
+          </div>
+
+          <div class="card app-card admin-card" data-name="sabnzbd usenet downloader" data-url="http://100.91.121.17:8777">
             <div class="card-top">
               <div class="app">
                 <div class="icon">⬇️</div>
@@ -705,7 +754,7 @@
 
         </div>
 
-        <div class="hint">Family-friendly version: hide Radarr/Sonarr/Prowlarr/SABnzbd and keep only Jellyseerr + Plex.</div>
+        <div class="hint">Kid Mode hides this section and keeps only Jellyseerr + Plex.</div>
       </div>
 
     </div>
@@ -725,13 +774,9 @@
 
 <script>
   // ==============================
-  // URLS (already set from your message)
+  // URLS
   // ==============================
-
-  // Dubai NAS (Tailscale) host used in your existing links page
   const DUBAI_HOST = "http://100.91.121.17";
-
-  // Ireland NAS Plex host (your provided Tailscale IP)
   const IRELAND_PLEX = "http://100.64.152.38:32400/web/index.html#!/";
 
   const URLS = {
@@ -739,18 +784,18 @@
     plexDubai:  `${DUBAI_HOST}:32400/web/index.html`,
     plexIreland: IRELAND_PLEX,
 
-    // Confirmed from your current links page:
     radarr:   `${DUBAI_HOST}:7878`,
     sonarr:   `${DUBAI_HOST}:8989`,
     prowlarr: `${DUBAI_HOST}:9696`,
     sabnzbd:  `${DUBAI_HOST}:8777`,
 
-    // Provided by you (replace LAN host with Tailscale IP)
     lidarr: `${DUBAI_HOST}:8686/`,
-    bazarr: `${DUBAI_HOST}:6767/series`
+    bazarr: `${DUBAI_HOST}:6767/series`,
+
+    // ✅ qBittorrent WebUI on 8081 (as you specified)
+    qbittorrent: `${DUBAI_HOST}:8081`
   };
 
-  // Footer year
   document.getElementById('year').textContent = new Date().getFullYear();
 
   // Theme toggle
@@ -780,7 +825,31 @@
     });
   })();
 
-  // Wire up "Open" + "Copy" for dynamic cards
+  // Kid Mode toggle (persisted)
+  (function() {
+    const body = document.body;
+    const kidBtn = document.getElementById('kidToggle');
+
+    function applyKidMode(isOn) {
+      body.classList.toggle('kid-on', isOn);
+      kidBtn.setAttribute('aria-pressed', isOn ? 'true' : 'false');
+
+      const adminSection = document.getElementById('section-admin');
+      if (adminSection) adminSection.classList.toggle('kid-hidden', isOn);
+
+      localStorage.setItem('boltproof-kidmode', isOn ? 'on' : 'off');
+    }
+
+    const stored = localStorage.getItem('boltproof-kidmode');
+    applyKidMode(stored === 'on'); // default OFF unless previously enabled
+
+    kidBtn.addEventListener('click', () => {
+      const isOn = !body.classList.contains('kid-on');
+      applyKidMode(isOn);
+    });
+  })();
+
+  // Wire up dynamic links
   function setLink(openId, copyId, url) {
     const openEl = document.getElementById(openId);
     const copyEl = document.getElementById(copyId);
@@ -793,6 +862,7 @@
   setLink("plexIrelandOpen","plexIrelandCopy", URLS.plexIreland);
   setLink("lidarrOpen","lidarrCopy", URLS.lidarr);
   setLink("bazarrOpen","bazarrCopy", URLS.bazarr);
+  setLink("qbitOpen","qbitCopy", URLS.qbittorrent);
 
   // Copy buttons + toast
   const toast = document.getElementById('toast');
@@ -836,8 +906,8 @@
     cards.forEach(card => {
       const hay = (card.getAttribute('data-name') || "").toLowerCase();
       const visible = !query || hay.includes(query);
-      card.style.display = visible ? "" : "none";
       if (visible) shown++;
+      card.style.display = visible ? "" : "none";
     });
 
     if (!query) {
@@ -849,19 +919,11 @@
 
   search.addEventListener('input', (e) => applyFilter(e.target.value));
 
-  // VPN hint (simple)
+  // VPN hint
   (function() {
     const vpnDot = document.getElementById('vpnDot');
     const vpnText = document.getElementById('vpnText');
-    const host = window.location.hostname || "";
-    const looksTailnet = host.includes("tail") || host.includes("ts.net") || host.includes("tailscale");
-
-    if (looksTailnet) {
-      vpnDot.classList.add('ok');
-      vpnText.textContent = "Tailnet link (good)";
-      return;
-    }
-
+    vpnDot.classList.add('ok');
     vpnText.textContent = "Tailscale required";
   })();
 </script>
