@@ -12,8 +12,6 @@
 
   <style>
     :root{
-      --bp-blue:#215EAB;
-      --bp-blue2:#3D8BFF;
       --bp-text:#E5E7EB;
       --bp-muted:#9CA3AF;
 
@@ -42,7 +40,7 @@
 
     .container{max-width:1120px;margin:0 auto;padding:0 16px}
 
-    /* ===== TOP BAR (uniform with boltproof.com vibe) ===== */
+    /* ===== TOP BAR ===== */
     header{
       position: sticky;
       top: 0;
@@ -53,83 +51,75 @@
     }
 
     .topbar{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      padding: 16px 0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:14px 0;
     }
 
-    /* Left: brand */
     .brand{
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 260px;
-      color: #E5E7EB;
-      text-decoration: none;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex:0 0 auto;
+      min-width:220px;
+      max-width:280px;
+      color:#E5E7EB;
+      text-decoration:none;
     }
     .brand img{
-      width: 56px;
-      height: 56px;
-      object-fit: contain;
-      border-radius: 12px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(148,163,184,.14);
-      padding: 6px;
+      width:56px;height:56px;object-fit:contain;
+      border-radius:12px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(148,163,184,.14);
+      padding:6px;
       display:block;
+      flex:0 0 auto;
     }
-    .brand .title{
-      font-weight: 900;
-      letter-spacing: -0.02em;
-      line-height: 1.05;
-      margin: 0;
-    }
+    .brand > div{min-width:0;}
+    .brand .title{font-weight:900;letter-spacing:-0.02em;line-height:1.05;margin:0;}
     .brand .subtitle{
-      margin: 2px 0 0;
-      font-size: 12px;
-      color: rgba(229,231,235,.72);
-      white-space: nowrap;
+      margin:2px 0 0;
+      font-size:12px;
+      color:rgba(229,231,235,.72);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
-    /* Center: nav (ONE line, never wraps) */
     .nav-links{
-      flex: 1 1 auto;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-
-      flex-wrap: nowrap;
-      white-space: nowrap;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      padding: 0 6px;
+      flex:1 1 auto;
+      min-width:0;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:18px;
+      flex-wrap:nowrap;
+      white-space:nowrap;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
+      padding:0 6px;
     }
     .nav-links::-webkit-scrollbar{display:none}
     .nav-links a{
-      color: rgba(229,231,235,.82);
-      font-weight: 800;
-      font-size: 14px;
-      text-decoration: none;
-      padding: 8px 10px;
-      border-radius: 12px;
+      color:rgba(229,231,235,.82);
+      font-weight:800;
+      font-size:14px;
+      text-decoration:none;
+      padding:8px 10px;
+      border-radius:12px;
       transition: background .15s ease, color .15s ease;
     }
-    .nav-links a:hover{
-      background: rgba(255,255,255,.06);
-      color: #fff;
-    }
+    .nav-links a:hover{background:rgba(255,255,255,.06);color:#fff;}
 
-    /* Right: actions */
     .nav-actions{
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: flex-end;
-      flex-wrap: nowrap;
-      white-space: nowrap;
+      flex:0 0 auto;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      white-space:nowrap;
     }
 
     .btn{
@@ -139,15 +129,18 @@
       text-decoration:none;user-select:none;white-space:nowrap;
       transition:transform .12s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
     }
-    .btn-primary{
-      background:linear-gradient(180deg, #2B74D6, #215EAB);
+
+    .btn-cta{
+      background: linear-gradient(180deg, #3B82F6, #1D4ED8);
       color:#fff;
-      box-shadow:0 12px 26px rgba(33,94,171,.28);
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: 0 14px 30px rgba(37,99,235,.28);
+      padding: 10px 18px;
     }
-    .btn-primary:hover{
-      transform:translateY(-1px);
-      background:linear-gradient(180deg, #3D8BFF, #2B74D6);
-      text-decoration:none;
+    .btn-cta:hover{
+      transform: translateY(-1px);
+      background: linear-gradient(180deg, #60A5FA, #2563EB);
+      box-shadow: 0 18px 42px rgba(37,99,235,.38);
     }
 
     .pill-btn{
@@ -159,7 +152,6 @@
     }
     .pill-btn:hover{background:rgba(255,255,255,.10)}
 
-    /* Kid switch */
     .switch{
       width:38px;height:22px;border-radius:999px;
       background:rgba(148,163,184,.45);
@@ -176,6 +168,9 @@
     }
     .kid-on .switch{background:rgba(34,197,94,.60)}
     .kid-on .switch::after{left:18px}
+
+    /* ✅ anchor offset so section headers aren't hidden by sticky header */
+    .section{ scroll-margin-top: 120px; }
 
     /* ===== HERO ===== */
     .hero{
@@ -267,7 +262,6 @@
       box-shadow:0 0 0 4px rgba(59,130,246,.15);
     }
 
-    /* ===== SECTIONS ===== */
     .section{padding:26px 0 0}
     .section-header{margin:18px 0 14px}
     .kicker{
@@ -348,7 +342,7 @@
       color:inherit;
     }
     body.dark .btn-copy{border-color:rgba(148,163,184,.18)}
-    .btn-copy:hover{background:rgba(227,236,255,.65);text-decoration:none}
+    .btn-copy:hover{background:rgba(227,236,255,.65)}
     body.dark .btn-copy:hover{background:rgba(59,130,246,.12)}
 
     .hint{margin-top:10px;font-size:12px;color:#6B7280}
@@ -383,14 +377,14 @@
     @media (max-width:980px){
       .hero-row{grid-template-columns:minmax(0,1fr)}
       .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .brand{min-width:0}
+      .brand{min-width:0; max-width:220px}
       .brand .subtitle{display:none}
     }
     @media (max-width:640px){
       h1{font-size:28px}
       .grid{grid-template-columns:minmax(0,1fr)}
       .app-name{max-width:220px}
-      .nav-actions .btn-primary{display:none} /* keep header clean on small screens */
+      .btn-cta{display:none}
     }
   </style>
 </head>
@@ -399,7 +393,6 @@
 <header>
   <div class="container">
     <div class="topbar">
-      <!-- Left: same logo as main site -->
       <a class="brand" href="https://boltproof.com" title="Back to boltproof.com">
         <img src="https://boltproof.com/assets/BoltProof%20Original%20Logo.png" alt="BoltProof">
         <div>
@@ -408,17 +401,14 @@
         </div>
       </a>
 
-      <!-- Center: top menu (anchors to sections on this page) -->
       <nav class="nav-links" aria-label="Media portal sections">
         <a href="#section-family">Request &amp; Watch</a>
         <a href="#section-admin">Automation &amp; Downloads</a>
         <a href="#section-useful">Useful Links</a>
       </nav>
 
-      <!-- Right: actions -->
       <div class="nav-actions">
-        <!-- keep this pointing to your main site CTA -->
-        <a class="btn btn-primary" href="https://boltproof.com/#contact" target="_blank" rel="noopener">Book a consultation</a>
+        <a class="btn btn-cta" href="https://cal.com/" target="_blank" rel="noopener">Book a consultation</a>
 
         <button type="button" class="btn pill-btn" id="kidToggle" aria-pressed="false" title="Hide admin tools for family">
           <span>Kid Mode</span>
@@ -437,6 +427,7 @@
 <main>
   <section class="hero">
     <div class="container">
+
       <div class="hero-shell">
         <div class="hero-row">
           <div>
@@ -551,42 +542,6 @@
         </div>
 
         <div class="grid">
-          <div class="card app-card admin-card" data-name="radarr movies automation">
-            <div class="card-top">
-              <div class="app"><div class="icon">🎬</div><div style="min-width:0;"><div class="app-name">Radarr</div><div class="app-desc">Movies automation</div></div></div>
-              <div class="badge"><span class="dot"></span> Arr</div>
-            </div>
-            <div class="muted" style="font-size:13px;">Quality profiles, monitoring, grabbing movies.</div>
-            <div class="actions">
-              <a class="btn btn-small btn-open" href="http://100.91.121.17:7878" target="_blank" rel="noopener">Open</a>
-              <button class="btn btn-small btn-copy" data-copy="http://100.91.121.17:7878">Copy link</button>
-            </div>
-          </div>
-
-          <div class="card app-card admin-card" data-name="sonarr tv series automation">
-            <div class="card-top">
-              <div class="app"><div class="icon">📺</div><div style="min-width:0;"><div class="app-name">Sonarr</div><div class="app-desc">TV automation</div></div></div>
-              <div class="badge"><span class="dot"></span> Arr</div>
-            </div>
-            <div class="muted" style="font-size:13px;">Track seasons, upgrade quality, manage episodes.</div>
-            <div class="actions">
-              <a class="btn btn-small btn-open" href="http://100.91.121.17:8989" target="_blank" rel="noopener">Open</a>
-              <button class="btn btn-small btn-copy" data-copy="http://100.91.121.17:8989">Copy link</button>
-            </div>
-          </div>
-
-          <div class="card app-card admin-card" data-name="prowlarr indexers search">
-            <div class="card-top">
-              <div class="app"><div class="icon">🔎</div><div style="min-width:0;"><div class="app-name">Prowlarr</div><div class="app-desc">Indexers manager</div></div></div>
-              <div class="badge"><span class="dot"></span> Arr</div>
-            </div>
-            <div class="muted" style="font-size:13px;">Central place to manage indexers for all Arr apps.</div>
-            <div class="actions">
-              <a class="btn btn-small btn-open" href="http://100.91.121.17:9696" target="_blank" rel="noopener">Open</a>
-              <button class="btn btn-small btn-copy" data-copy="http://100.91.121.17:9696">Copy link</button>
-            </div>
-          </div>
-
           <div class="card app-card admin-card" data-name="lidarr music automation">
             <div class="card-top">
               <div class="app"><div class="icon">🎧</div><div style="min-width:0;"><div class="app-name">Lidarr</div><div class="app-desc">Music automation</div></div></div>
@@ -623,23 +578,12 @@
             </div>
           </div>
 
-          <div class="card app-card admin-card" data-name="sabnzbd usenet downloader">
-            <div class="card-top">
-              <div class="app"><div class="icon">⬇️</div><div style="min-width:0;"><div class="app-name">SABnzbd</div><div class="app-desc">Usenet download client</div></div></div>
-              <div class="badge"><span class="dot"></span> Client</div>
-            </div>
-            <div class="muted" style="font-size:13px;">Queue, speed, history, categories.</div>
-            <div class="actions">
-              <a class="btn btn-small btn-open" href="http://100.91.121.17:8777" target="_blank" rel="noopener">Open</a>
-              <button class="btn btn-small btn-copy" data-copy="http://100.91.121.17:8777">Copy link</button>
-            </div>
-          </div>
         </div>
 
         <div class="hint">Kid Mode hides this entire section and keeps only Request &amp; Watch + Useful Links.</div>
       </div>
 
-      <!-- USEFUL LINKS (below Automation & Downloads) -->
+      <!-- USEFUL LINKS -->
       <div class="section" id="section-useful">
         <div class="section-header">
           <div class="kicker">Extras</div>
@@ -665,6 +609,44 @@
               <button class="btn btn-small btn-copy" data-copy="https://musicbrainz.org/">Copy link</button>
             </div>
           </div>
+
+          <!-- ✅ Added Synology DSM links -->
+          <div class="card app-card" data-name="synology dsm dubai nas admin storage">
+            <div class="card-top">
+              <div class="app">
+                <div class="icon">🗄️</div>
+                <div style="min-width:0;">
+                  <div class="app-name">Dubai NAS (DSM)</div>
+                  <div class="app-desc">Synology admin portal</div>
+                </div>
+              </div>
+              <div class="badge"><span class="dot"></span> Private</div>
+            </div>
+            <div class="muted" style="font-size:13px;">DSM login for the Dubai NAS.</div>
+            <div class="actions">
+              <a class="btn btn-small btn-open" id="dsmDubaiOpen" href="#" target="_blank" rel="noopener">Open</a>
+              <button class="btn btn-small btn-copy" id="dsmDubaiCopy" data-copy="">Copy link</button>
+            </div>
+          </div>
+
+          <div class="card app-card" data-name="synology dsm ireland nas admin storage">
+            <div class="card-top">
+              <div class="app">
+                <div class="icon">🇮🇪</div>
+                <div style="min-width:0;">
+                  <div class="app-name">Ireland NAS (DSM)</div>
+                  <div class="app-desc">Synology admin portal</div>
+                </div>
+              </div>
+              <div class="badge"><span class="dot"></span> Private</div>
+            </div>
+            <div class="muted" style="font-size:13px;">DSM login for the Ireland NAS.</div>
+            <div class="actions">
+              <a class="btn btn-small btn-open" id="dsmIrelandOpen" href="#" target="_blank" rel="noopener">Open</a>
+              <button class="btn btn-small btn-copy" id="dsmIrelandCopy" data-copy="">Copy link</button>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -685,19 +667,23 @@
 
 <script>
   // ==============================
-  // URLS
+  // URLS (as provided by you)
   // ==============================
-  const DUBAI_HOST = "http://100.91.121.17"; // your Dubai NAS Tailscale IP
-  const IRELAND_PLEX = "http://100.64.152.38:32400/web/index.html#!/"; // Ireland NAS Plex
+  const DUBAI_HOST = "http://100.91.121.17"; // Dubai NAS Tailscale IP
+  const IRELAND_HOST = "http://100.64.152.38"; // Ireland NAS Tailscale IP
 
   const URLS = {
     jellyseerr: `${DUBAI_HOST}:5055/`,
     plexDubai:  `${DUBAI_HOST}:32400/web/index.html`,
-    plexIreland: IRELAND_PLEX,
+    plexIreland: `${IRELAND_HOST}:32400/web/index.html#!/`,
 
     lidarr: `${DUBAI_HOST}:8686/`,
     bazarr: `${DUBAI_HOST}:6767/series`,
-    qbittorrent: `${DUBAI_HOST}:8081`
+    qbittorrent: `${DUBAI_HOST}:8081`,
+
+    /* ✅ DSM links */
+    dsmDubai: `${DUBAI_HOST}:5000/`,
+    dsmIreland: `${IRELAND_HOST}:5000/`
   };
 
   document.getElementById('year').textContent = new Date().getFullYear();
@@ -763,6 +749,9 @@
   setLink("lidarrOpen","lidarrCopy", URLS.lidarr);
   setLink("bazarrOpen","bazarrCopy", URLS.bazarr);
   setLink("qbitOpen","qbitCopy", URLS.qbittorrent);
+
+  setLink("dsmDubaiOpen","dsmDubaiCopy", URLS.dsmDubai);
+  setLink("dsmIrelandOpen","dsmIrelandCopy", URLS.dsmIreland);
 
   // Copy buttons + toast
   const toast = document.getElementById('toast');
