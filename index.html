@@ -154,8 +154,8 @@
     .kid-on .switch{background:rgba(34,197,94,.60)}
     .kid-on .switch::after{left:18px}
 
-    /* anchor offset so section titles never hide behind sticky header */
-    .section{ scroll-margin-top: 130px; }
+    /* ✅ Increased so headings never tuck under sticky header */
+    .section{ scroll-margin-top: 170px; }
 
     /* MOBILE MENU */
     .menu-btn{display:none}
@@ -178,9 +178,9 @@
     .menu-panel a:hover{background:rgba(255,255,255,.06);color:#fff}
     .menu-panel small{color:rgba(229,231,235,.55);font-weight:800}
 
-    /* HERO */
+    /* ✅ More top padding so the first section is lower */
     .hero{
-      padding:38px 0 22px;
+      padding:56px 0 22px;
       background:
         radial-gradient(circle at top left, rgba(102,153,255,0.22), transparent 55%),
         radial-gradient(circle at bottom right, rgba(56,189,248,0.16), transparent 60%);
@@ -359,7 +359,6 @@
       .brand .subtitle{display:none}
     }
 
-    /* Switch to menu BEFORE anything would clip */
     @media (max-width:1020px){
       .nav-links{display:none}
       .menu-btn{display:inline-flex}
@@ -397,7 +396,8 @@
           <span>☰ Menu</span>
         </button>
 
-        <a class="btn btn-cta" href="https://cal.com/" target="_blank" rel="noopener">Book a consultation</a>
+        <!-- ✅ Updated cal link -->
+        <a class="btn btn-cta" href="https://cal.com/boltproof" target="_blank" rel="noopener">Book a consultation</a>
 
         <button type="button" class="btn pill-btn" id="kidToggle" aria-pressed="false" title="Hide admin tools for family">
           <span>Kid Mode</span>
@@ -420,10 +420,10 @@
   </div>
 </header>
 
+<!-- PAGE CONTENT -->
 <main>
   <section class="hero">
     <div class="container">
-
       <div class="hero-shell">
         <div class="hero-row">
           <div>
