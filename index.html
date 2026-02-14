@@ -6,12 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="BoltProof media portal: Jellyseerr and the Arr stack in one clean dashboard." />
 
-  <!-- ✅ FAVICON (browser tab) -->
-  <link rel="icon" href="/assets/favicon.ico" sizes="any">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-  <link rel="manifest" href="/assets/site.webmanifest">
+  <!-- ✅ Use the SAME favicon as boltproof.com -->
+  <link rel="icon" href="https://boltproof.com/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="https://boltproof.com/apple-touch-icon.png">
 
   <meta property="og:title" content="BoltProof – Media Portal">
   <meta property="og:description" content="Jellyseerr + Arr stack links in one clean dashboard (Tailscale-only)." />
@@ -532,7 +529,7 @@
             </div>
 
             <div class="search">
-              <input id="search" type="text" placeholder="Search apps… (e.g. jelly, plex, subtitles, qbittorrent)" autocomplete="off" />
+              <input id="search" type="text" placeholder="Search apps… (e.g. jelly, plex, subtitles, qbittorrent, musicbrainz)" autocomplete="off" />
             </div>
 
             <div class="hint" id="resultsHint">Tip: type “jelly” to find the request app fast.</div>
@@ -610,6 +607,35 @@
             <div class="actions">
               <a class="btn btn-small btn-open" id="plexIrelandOpen" href="#" target="_blank" rel="noopener">Open</a>
               <button class="btn btn-small btn-copy" id="plexIrelandCopy" data-copy="">Copy link</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ✅ USEFUL LINKS -->
+      <div class="section" id="section-useful">
+        <div class="section-header">
+          <div class="kicker">Extras</div>
+          <h2>Useful Links</h2>
+          <div class="underline"></div>
+        </div>
+
+        <div class="grid">
+          <div class="card app-card" data-name="musicbrainz music brainz metadata artist album" data-url="https://musicbrainz.org/">
+            <div class="card-top">
+              <div class="app">
+                <div class="icon">🎼</div>
+                <div style="min-width:0;">
+                  <div class="app-name">MusicBrainz</div>
+                  <div class="app-desc">Music metadata & artist pages</div>
+                </div>
+              </div>
+              <div class="badge"><span class="dot ok"></span> Public</div>
+            </div>
+            <div class="muted" style="font-size:13px;">Find correct artists/albums to import into Lidarr.</div>
+            <div class="actions">
+              <a class="btn btn-small btn-open" href="https://musicbrainz.org/" target="_blank" rel="noopener">Open</a>
+              <button class="btn btn-small btn-copy" data-copy="https://musicbrainz.org/">Copy link</button>
             </div>
           </div>
         </div>
@@ -715,7 +741,6 @@
             </div>
           </div>
 
-          <!-- qBittorrent -->
           <div class="card app-card admin-card" data-name="qbittorrent qbit torrent torrents download client" data-url="">
             <div class="card-top">
               <div class="app">
@@ -754,7 +779,7 @@
 
         </div>
 
-        <div class="hint">Kid Mode hides this section and keeps only Jellyseerr + Plex.</div>
+        <div class="hint">Kid Mode hides this section and keeps only Jellyseerr + Plex + Useful Links.</div>
       </div>
 
     </div>
@@ -792,7 +817,6 @@
     lidarr: `${DUBAI_HOST}:8686/`,
     bazarr: `${DUBAI_HOST}:6767/series`,
 
-    // ✅ qBittorrent WebUI on 8081 (as you specified)
     qbittorrent: `${DUBAI_HOST}:8081`
   };
 
@@ -841,7 +865,7 @@
     }
 
     const stored = localStorage.getItem('boltproof-kidmode');
-    applyKidMode(stored === 'on'); // default OFF unless previously enabled
+    applyKidMode(stored === 'on');
 
     kidBtn.addEventListener('click', () => {
       const isOn = !body.classList.contains('kid-on');
