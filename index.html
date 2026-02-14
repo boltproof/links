@@ -1,93 +1,870 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>BoltProof – Services</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <title>BoltProof – Media Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="BoltProof media portal: Jellyseerr and the Arr stack in one clean dashboard." />
+
+  <!-- Favicons (optional; remove if you don't host these on links.boltproof.com) -->
+  <link rel="icon" href="assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+
+  <meta property="og:title" content="BoltProof – Media Portal">
+  <meta property="og:description" content="Jellyseerr + Arr stack links in one clean dashboard (Tailscale-only)." />
+  <meta property="og:type" content="website" />
+
   <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont;
-      background: #0f172a;
-      color: #e5e7eb;
-      padding: 40px;
-      max-width: 900px;
-      margin: auto;
+    :root {
+      --bolt-blue: #215EAB;
+      --bolt-dark: #23262F;
+      --bg-soft: #F5F7FB;
+      --card-bg: #FFFFFF;
+      --accent: #3D8BFF;
+
+      --bolt-dark-text: #E5E7EB;
+      --bg-dark: #020617;
+      --card-bg-dark: #020617;
+      --border-dark: #1E293B;
+
+      --ok: #22C55E;
+      --warn: #F59E0B;
+      --danger: #EF4444;
     }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--bolt-dark);
+      background: var(--bg-soft);
+      line-height: 1.6;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+    body.dark {
+      background: var(--bg-dark);
+      color: var(--bolt-dark-text);
+    }
+
+    a { color: var(--bolt-blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    body.dark a { color: #60A5FA; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(245,247,251,0.96);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid #E2E8F0;
+      transition: background 0.25s ease, border-color 0.25s ease;
+    }
+    body.dark header {
+      background: rgba(2,6,23,0.96);
+      border-color: #1F2937;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      gap: 14px;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 220px;
+    }
+
+    .logo-wrap { display: flex; align-items: center; }
+    .logo-wrap img { height: 62px; display: block; }
+
+    .muted { color: #6B7280; }
+    body.dark .muted { color: #9CA3AF; }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: none;
+      font-size: 13px;
+      font-weight: 650;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .btn-primary {
+      background: var(--bolt-blue);
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(33,94,171,0.25);
+    }
+    .btn-primary:hover {
+      background: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(61,139,255,0.3);
+      text-decoration: none;
+    }
+
+    .theme-toggle {
+      border-radius: 999px;
+      border: 1px solid #CBD5F5;
+      padding: 8px 12px;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #FFFFFF;
+      cursor: pointer;
+    }
+    body.dark .theme-toggle {
+      border-color: #1F2937;
+      background: #020617;
+      color: #E5E7EB;
+    }
+
+    main { padding-bottom: 46px; }
+
+    .hero {
+      padding: 48px 0 22px;
+      background:
+        radial-gradient(circle at top left, rgba(102,153,255,0.25), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(56,189,248,0.18), transparent 60%),
+        var(--bg-soft);
+    }
+    body.dark .hero {
+      background:
+        radial-gradient(circle at top left, rgba(59,130,246,0.25), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(45,212,191,0.18), transparent 60%),
+        var(--bg-dark);
+    }
+
+    .hero-shell {
+      background: rgba(255,255,255,0.9);
+      border-radius: 18px;
+      padding: 18px 18px 14px;
+      box-shadow: 0 18px 45px rgba(15,23,42,0.18);
+      border: 1px solid rgba(148,163,184,0.45);
+      backdrop-filter: blur(10px);
+    }
+    body.dark .hero-shell {
+      background: rgba(15,23,42,0.9);
+      border-color: rgba(30,64,175,0.9);
+      box-shadow: 0 24px 55px rgba(0,0,0,0.85);
+    }
+
     h1 {
+      margin: 0 0 8px;
+      font-size: 34px;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .callout {
+      border-radius: 14px;
+      padding: 12px 12px;
+      border: 1px solid rgba(148,163,184,0.55);
+      background: rgba(227,236,255,0.55);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 13px;
+    }
+    body.dark .callout {
+      border-color: rgba(51,65,85,0.9);
+      background: rgba(15,23,42,0.85);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid rgba(148,163,184,0.6);
+      background: rgba(255,255,255,0.9);
+      font-weight: 650;
+    }
+    body.dark .pill {
+      background: rgba(15,23,42,0.95);
+      border-color: rgba(51,65,85,0.9);
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--warn);
+      box-shadow: 0 0 0 4px rgba(245,158,11,0.15);
+      margin-top: 2px;
+    }
+    .dot.ok { background: var(--ok); box-shadow: 0 0 0 4px rgba(34,197,94,0.15); }
+    .dot.danger { background: var(--danger); box-shadow: 0 0 0 4px rgba(239,68,68,0.12); }
+
+    .search {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+    }
+    .search input {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid rgba(148,163,184,0.6);
+      padding: 12px 14px;
+      font-size: 14px;
+      outline: none;
+      background: rgba(255,255,255,0.9);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    body.dark .search input {
+      background: rgba(2,6,23,0.9);
+      border-color: rgba(51,65,85,0.9);
+      color: #E5E7EB;
+    }
+    .search input:focus {
+      border-color: rgba(59,130,246,0.85);
+      box-shadow: 0 0 0 4px rgba(59,130,246,0.15);
+    }
+
+    .section { padding: 26px 0 0; }
+    .section-header { margin: 18px 0 14px; }
+    .kicker {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #9CA3AF;
       margin-bottom: 6px;
     }
-    .sub {
-      color: #9ca3af;
-      margin-bottom: 24px;
+    body.dark .kicker { color: #6B7280; }
+    h2 { margin: 0 0 10px; font-size: 22px; letter-spacing: -0.02em; }
+    .underline {
+      width: 64px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg,#3B82F6,#22C55E);
+      opacity: 0.85;
     }
+
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 16px;
     }
-    a {
-      background: #111827;
-      padding: 18px;
-      border-radius: 14px;
-      text-decoration: none;
-      color: #e5e7eb;
-      box-shadow: 0 6px 16px rgba(0,0,0,.4);
-      transition: transform .1s ease, box-shadow .1s ease;
-      border: 1px solid #1f2937;
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 16px 16px 14px;
+      box-shadow: 0 10px 30px rgba(15,23,42,0.06);
+      border: 1px solid #E5E7EB;
+      transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.12s ease;
+      position: relative;
+      overflow: hidden;
+      min-height: 138px;
     }
-    a:hover {
+    .card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 22px rgba(0,0,0,.6);
+      box-shadow: 0 16px 40px rgba(15,23,42,0.12);
+      border-color: rgba(148,163,184,0.9);
     }
+    body.dark .card {
+      background: var(--card-bg-dark);
+      border-color: var(--border-dark);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    }
+    body.dark .card:hover {
+      border-color: #334155;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .app { display: flex; align-items: center; gap: 10px; min-width: 0; }
     .icon {
-      font-size: 20px;
-      margin-right: 8px;
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(227,236,255,0.9);
+      font-size: 18px;
+      flex: 0 0 auto;
     }
-    footer {
-      margin-top: 28px;
+    body.dark .icon { background: rgba(15,23,42,0.9); }
+
+    .app-name {
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+      margin: 0;
+      font-size: 15px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 260px;
+    }
+    .app-desc { margin: 2px 0 0; font-size: 12px; color: #6B7280; }
+    body.dark .app-desc { color: #9CA3AF; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 750;
+      border: 1px solid rgba(148,163,184,0.6);
+      background: rgba(255,255,255,0.85);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    body.dark .badge {
+      background: rgba(2,6,23,0.75);
+      border-color: rgba(51,65,85,0.9);
+    }
+
+    .actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+    .btn-small { padding: 8px 12px; font-size: 12px; border-radius: 999px; }
+
+    .btn-open {
+      background: var(--bolt-blue);
+      color: #fff;
+      border: 0;
+      box-shadow: 0 8px 18px rgba(33,94,171,0.20);
+    }
+    .btn-open:hover { background: var(--accent); transform: translateY(-1px); text-decoration: none; }
+
+    .btn-copy {
+      background: transparent;
+      border: 1px solid rgba(148,163,184,0.7);
+      color: inherit;
+    }
+    body.dark .btn-copy { border-color: rgba(51,65,85,0.9); }
+    .btn-copy:hover { background: rgba(227,236,255,0.7); text-decoration: none; }
+    body.dark .btn-copy:hover { background: rgba(30,64,175,0.20); }
+
+    .hint { margin-top: 10px; font-size: 12px; color: #6B7280; }
+    body.dark .hint { color: #9CA3AF; }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(15,23,42,0.92);
+      color: #E5E7EB;
+      border: 1px solid rgba(51,65,85,0.9);
+      padding: 10px 12px;
+      border-radius: 12px;
       font-size: 13px;
-      color: #9ca3af;
+      box-shadow: 0 18px 55px rgba(0,0,0,0.35);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      z-index: 9999;
+      max-width: 92vw;
     }
-    .warn {
-      background: #1f2937;
-      border-left: 4px solid #22c55e;
-      padding: 12px 16px;
-      border-radius: 10px;
-      margin-bottom: 24px;
-      color: #bbf7d0;
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(-4px); }
+
+    footer {
+      border-top: 1px solid #E5E7EB;
+      padding: 12px 0 18px;
+      font-size: 12px;
+      color: #6B7280;
+      transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+      margin-top: 18px;
+    }
+    body.dark footer {
+      border-color: #1F2937;
+      color: #9CA3AF;
+      background: #020617;
+    }
+
+    .footer-row {
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-bottom:4px;
+    }
+
+    @media (max-width: 980px) {
+      .hero-row { grid-template-columns: minmax(0, 1fr); }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .logo-wrap img { height: 54px; }
+    }
+    @media (max-width: 640px) {
+      h1 { font-size: 28px; }
+      .grid { grid-template-columns: minmax(0, 1fr); }
+      .nav-left { min-width: 0; }
+      .app-name { max-width: 220px; }
     }
   </style>
 </head>
+
 <body>
+<header>
+  <div class="container">
+    <div class="nav">
+      <div class="nav-left">
+        <div class="logo-wrap">
+          <img src="assets/BoltProof%20Original%20Logo.png" alt="BoltProof logo" onerror="this.style.display='none'">
+        </div>
+        <div>
+          <strong>BoltProof</strong><br />
+          <span class="muted" style="font-size:12px;">Media Portal • Arr Stack • Tailscale</span>
+        </div>
+      </div>
 
-  <h1>🔐 BoltProof</h1>
-  <div class="sub">Tailscale-only services</div>
-
-  <div class="warn">
-    ✅ These links work only when you are connected to Tailscale.
+      <div class="nav-right">
+        <a class="btn btn-primary" href="https://boltproof.com" title="Back to main site">boltproof.com</a>
+        <button type="button" class="theme-toggle" id="themeToggle">
+          <span id="themeIcon">🌙</span>
+          <span id="themeLabel">Dark</span>
+        </button>
+      </div>
+    </div>
   </div>
+</header>
 
-  <div class="grid">
-    <a href="http://100.91.121.17:7878">
-      <span class="icon">🎬</span> Radarr
-    </a>
+<main>
+  <section class="hero">
+    <div class="container">
+      <div class="hero-shell">
+        <div class="hero-row">
+          <div>
+            <h1>Media Portal</h1>
+            <p class="muted" style="margin:0;">
+              Request in <strong>Jellyseerr</strong> → Arr stack grabs it → watch on <strong>Plex</strong>.
+            </p>
 
-    <a href="http://100.91.121.17:8989">
-      <span class="icon">📺</span> Sonarr
-    </a>
+            <div class="pill-row" aria-label="Status">
+              <div class="pill" title="These services require Tailscale / VPN access">
+                <span class="dot" id="vpnDot"></span>
+                <span id="vpnText">Tailscale likely required</span>
+              </div>
+              <div class="pill" title="Quick tip for family">
+                <span>🎯</span>
+                <span>Start with Jellyseerr</span>
+              </div>
+              <div class="pill" title="Search & copy links">
+                <span>⚡</span>
+                <span>Search + Copy</span>
+              </div>
+            </div>
 
-    <a href="http://100.91.121.17:9696">
-      <span class="icon">🔎</span> Prowlarr
-    </a>
+            <div class="search">
+              <input id="search" type="text" placeholder="Search apps… (e.g. jelly, radarr, subtitles, plex)" autocomplete="off" />
+            </div>
 
-    <a href="http://100.91.121.17:8777">
-      <span class="icon">⬇️</span> SABnzbd
-    </a>
+            <div class="hint" id="resultsHint">Tip: type “jelly” to find the request app fast.</div>
+          </div>
+
+          <div class="callout">
+            <div style="font-size:18px; line-height:1;">🛡️</div>
+            <div>
+              <div style="font-weight:800; margin-bottom:2px;">Access note</div>
+              <div class="muted" style="font-size:13px;">
+                These links are <strong>Tailscale-only</strong>. If something doesn’t open, connect to Tailscale first.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REQUEST + WATCH -->
+      <div class="section">
+        <div class="section-header">
+          <div class="kicker">Recommended</div>
+          <h2>Request & Watch</h2>
+          <div class="underline"></div>
+        </div>
+
+        <div class="grid">
+
+          <div class="card app-card" data-name="jellyseerr request requests movies tv" data-url="">
+            <div class="card-top">
+              <div class="app">
+                <div class="icon">🍿</div>
+                <div style="min-width:0;">
+                  <div class="app-name">Jellyseerr</div>
+                  <div class="app-desc">Request movies & TV</div>
+                </div>
+              </div>
+              <div class="badge"><span class="dot ok"></span> Start here</div>
+            </div>
+            <div class="muted" style="font-size:13px;">Search → request → it appears in Plex when ready.</div>
+            <div class="actions">
+              <a class="btn btn-small btn-open" id="jellyOpen" href="#" target="_blank" rel="noopener">Open</a>
+              <button class="btn btn-small btn-copy" id="jellyCopy" data-copy="">Copy link</button>
+            </div>
+          </div>
+
+          <div class="card app-card" data-name="plex dubai watch streaming library" data-url="">
+            <div class="card-top">
+              <div class="app">
+                <div class="icon">📺</div>
+                <div style="min-width:0;">
+                  <div class="app-name">Plex (Dubai NAS)</div>
+                  <div class="app-desc">Watch from Dubai server</div>
+                </div>
+              </div>
+              <div class="badge"><span class="dot ok"></span> Dubai</div>
+            </div>
+            <div class="muted" style="font-size:13px;">Main library hosted on the Dubai NAS.</div>
+            <div class="actions">
+              <a class="btn btn-small btn-open" id="plexDubaiOpen" href="#" target="_blank" rel="noopener">Open</a>
+              <button class="btn btn-small btn-copy" id="plexDubaiCopy" data-copy="">Copy link</button>
+            </div>
+          </div>
+
+          <div class="card app-card" data-name="plex ireland watch streaming library" data-url="">
+            <div class="card-top">
+              <div class="app">
+                <div class="icon">🇮🇪</div>
+                <div style="min-width:0;">
+                  <div class="app-name">Plex (Ireland NAS)</div>
+                  <div class="app-desc">Watch from Ireland server</div>
+                </div>
+              </div>
+              <div class="badge"><span class="dot"></span> Ireland</div>
+            </div>
+            <div class="muted" style="font-size:13px;">Fallback/local server in Ireland.</div>
+            <div class="actions">
+              <a class="btn btn-small btn-open" id="plexIrelandOpen" href="#" target="_blank" rel="noopener">Open</a>
+              <button class="btn btn-small btn-copy" id="plexIrelandCopy" data-copy="">Copy link</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ARR STACK -->
+      <div class="section">
+        <div class="section-header">
+          <div class="kicker">Automation</div>
+          <h2>Arr Stack</h2>
+          <div class="underline"></div>
+        </div>
+
+        <div class="grid">
+
+          <div class="card app-card" data-name="radarr movies automation" data-url="http://100.91.121.17:7878">
+            <div class="card-top">
+              <div class="app">
+                <div class="icon">🎬</div>
+                <div style="min-width:0;">
+                  <div class="app-name">Radarr</div>
+                  <div class="app-desc">Movies automation</div>
+                </div>
+              </div>
+              <div class="badge"><span class="dot"></span> Arr</div>
+            </div>
+            <div class="muted" style="font-size:13px;">Quality profiles, monitoring, grabbing movies.</div>
+            <div class="actions">
+              <a class="btn btn-small btn-open" href="http://100.91.121.17:7878" target="_blank" rel="noopener">Open</a>
+              <button class="btn btn-small btn-copy" data-copy="http://100.91.121.17:7878">Copy link</button>
+            </div>
+          </div>
+
+          <div class="card app-card" data-name="sonarr tv series automation" data-url="http://100.91.121.17:8989">
+            <div class="card-top">
+              <div class="app">
+                <div class="icon">📺</div>
+                <div style="min-width:0;">
+                  <div class="app-name">Sonarr</div>
+                  <div class="app-desc">TV automation</div>
+                </div>
+              </div>
+              <div class="badge"><span class="dot"></span> Arr</div>
+            </div>
+            <div class="muted" style="font-size:13px;">Track seasons, upgrade quality, manage episodes.</div>
+            <div class="actions">
+              <a class="btn btn-small btn-open" href="http://100.91.121.17:8989" target="_blank" rel="noopener">Open</a>
+              <button class="btn btn-small btn-copy" data-copy="http://100.91.121.17:8989">Copy link</button>
+            </div>
+          </div>
+
+          <div class="card app-card" data-name="prowlarr indexers search" data-url="http://100.91.121.17:9696">
+            <div class="card-top">
+              <div class="app">
+                <div class="icon">🔎</div>
+                <div style="min-width:0;">
+                  <div class="app-name">Prowlarr</div>
+                  <div class="app-desc">Indexers manager</div>
+                </div>
+              </div>
+              <div class="badge"><span class="dot"></span> Arr</div>
+            </div>
+            <div class="muted" style="font-size:13px;">Central place to manage indexers for all Arr apps.</div>
+            <div class="actions">
+              <a class="btn btn-small btn-open" href="http://100.91.121.17:9696" target="_blank" rel="noopener">Open</a>
+              <button class="btn btn-small btn-copy" data-copy="http://100.91.121.17:9696">Copy link</button>
+            </div>
+          </div>
+
+          <div class="card app-card" data-name="lidarr music automation" data-url="">
+            <div class="card-top">
+              <div class="app">
+                <div class="icon">🎧</div>
+                <div style="min-width:0;">
+                  <div class="app-name">Lidarr</div>
+                  <div class="app-desc">Music automation</div>
+                </div>
+              </div>
+              <div class="badge"><span class="dot"></span> Arr</div>
+            </div>
+            <div class="muted" style="font-size:13px;">Track artists & grab albums automatically.</div>
+            <div class="actions">
+              <a class="btn btn-small btn-open" id="lidarrOpen" href="#" target="_blank" rel="noopener">Open</a>
+              <button class="btn btn-small btn-copy" id="lidarrCopy" data-copy="">Copy link</button>
+            </div>
+          </div>
+
+          <div class="card app-card" data-name="bazarr subtitles series" data-url="">
+            <div class="card-top">
+              <div class="app">
+                <div class="icon">💬</div>
+                <div style="min-width:0;">
+                  <div class="app-name">Bazarr</div>
+                  <div class="app-desc">Subtitles automation</div>
+                </div>
+              </div>
+              <div class="badge"><span class="dot"></span> Utility</div>
+            </div>
+            <div class="muted" style="font-size:13px;">Auto-fetch subtitles for your series.</div>
+            <div class="actions">
+              <a class="btn btn-small btn-open" id="bazarrOpen" href="#" target="_blank" rel="noopener">Open</a>
+              <button class="btn btn-small btn-copy" id="bazarrCopy" data-copy="">Copy link</button>
+            </div>
+          </div>
+
+          <div class="card app-card" data-name="sabnzbd usenet downloader" data-url="http://100.91.121.17:8777">
+            <div class="card-top">
+              <div class="app">
+                <div class="icon">⬇️</div>
+                <div style="min-width:0;">
+                  <div class="app-name">SABnzbd</div>
+                  <div class="app-desc">Usenet download client</div>
+                </div>
+              </div>
+              <div class="badge"><span class="dot"></span> Client</div>
+            </div>
+            <div class="muted" style="font-size:13px;">Queue, speed, history, categories.</div>
+            <div class="actions">
+              <a class="btn btn-small btn-open" href="http://100.91.121.17:8777" target="_blank" rel="noopener">Open</a>
+              <button class="btn btn-small btn-copy" data-copy="http://100.91.121.17:8777">Copy link</button>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="hint">Family-friendly version: hide Radarr/Sonarr/Prowlarr/SABnzbd and keep only Jellyseerr + Plex.</div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-row">
+      <div>© <span id="year"></span> BoltProof. All rights reserved.</div>
+      <div class="muted">Tailscale-only portal • clean and simple</div>
+    </div>
   </div>
+</footer>
 
-  <footer>
-    Services are reachable only via the Tailscale network.
-  </footer>
+<div class="toast" id="toast">Copied</div>
+
+<script>
+  // ==============================
+  // URLS (already set from your message)
+  // ==============================
+
+  // Dubai NAS (Tailscale) host used in your existing links page
+  const DUBAI_HOST = "http://100.91.121.17";
+
+  // Ireland NAS Plex host (your provided Tailscale IP)
+  const IRELAND_PLEX = "http://100.64.152.38:32400/web/index.html#!/";
+
+  const URLS = {
+    jellyseerr: `${DUBAI_HOST}:5055/`,
+    plexDubai:  `${DUBAI_HOST}:32400/web/index.html`,
+    plexIreland: IRELAND_PLEX,
+
+    // Confirmed from your current links page:
+    radarr:   `${DUBAI_HOST}:7878`,
+    sonarr:   `${DUBAI_HOST}:8989`,
+    prowlarr: `${DUBAI_HOST}:9696`,
+    sabnzbd:  `${DUBAI_HOST}:8777`,
+
+    // Provided by you (replace LAN host with Tailscale IP)
+    lidarr: `${DUBAI_HOST}:8686/`,
+    bazarr: `${DUBAI_HOST}:6767/series`
+  };
+
+  // Footer year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Theme toggle
+  (function() {
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const stored = localStorage.getItem('boltproof-theme');
+    const body = document.body;
+
+    if (stored === 'dark' || (!stored && prefersDark)) body.classList.add('dark');
+
+    const btn = document.getElementById('themeToggle');
+    const icon = document.getElementById('themeIcon');
+    const label = document.getElementById('themeLabel');
+
+    function syncLabel() {
+      const isDark = body.classList.contains('dark');
+      icon.textContent = isDark ? '☀️' : '🌙';
+      label.textContent = isDark ? 'Light' : 'Dark';
+    }
+    syncLabel();
+
+    btn.addEventListener('click', function() {
+      body.classList.toggle('dark');
+      const isDark = body.classList.contains('dark');
+      localStorage.setItem('boltproof-theme', isDark ? 'dark' : 'light');
+      syncLabel();
+    });
+  })();
+
+  // Wire up "Open" + "Copy" for dynamic cards
+  function setLink(openId, copyId, url) {
+    const openEl = document.getElementById(openId);
+    const copyEl = document.getElementById(copyId);
+    if (openEl) openEl.href = url;
+    if (copyEl) copyEl.setAttribute("data-copy", url);
+  }
+
+  setLink("jellyOpen","jellyCopy", URLS.jellyseerr);
+  setLink("plexDubaiOpen","plexDubaiCopy", URLS.plexDubai);
+  setLink("plexIrelandOpen","plexIrelandCopy", URLS.plexIreland);
+  setLink("lidarrOpen","lidarrCopy", URLS.lidarr);
+  setLink("bazarrOpen","bazarrCopy", URLS.bazarr);
+
+  // Copy buttons + toast
+  const toast = document.getElementById('toast');
+  let toastTimer = null;
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 1400);
+  }
+
+  async function copyText(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      showToast("Copied link ✅");
+    } catch (e) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+      showToast("Copied link ✅");
+    }
+  }
+
+  document.querySelectorAll('[data-copy]').forEach(btn => {
+    btn.addEventListener('click', () => copyText(btn.getAttribute('data-copy')));
+  });
+
+  // Search filter
+  const search = document.getElementById('search');
+  const cards = Array.from(document.querySelectorAll('.app-card'));
+  const hint = document.getElementById('resultsHint');
+
+  function applyFilter(q) {
+    const query = (q || "").trim().toLowerCase();
+    let shown = 0;
+
+    cards.forEach(card => {
+      const hay = (card.getAttribute('data-name') || "").toLowerCase();
+      const visible = !query || hay.includes(query);
+      card.style.display = visible ? "" : "none";
+      if (visible) shown++;
+    });
+
+    if (!query) {
+      hint.textContent = "Tip: type “jelly” to find the request app fast.";
+    } else {
+      hint.textContent = shown ? `${shown} match${shown === 1 ? "" : "es"} for “${q}”.` : `No matches for “${q}”.`;
+    }
+  }
+
+  search.addEventListener('input', (e) => applyFilter(e.target.value));
+
+  // VPN hint (simple)
+  (function() {
+    const vpnDot = document.getElementById('vpnDot');
+    const vpnText = document.getElementById('vpnText');
+    const host = window.location.hostname || "";
+    const looksTailnet = host.includes("tail") || host.includes("ts.net") || host.includes("tailscale");
+
+    if (looksTailnet) {
+      vpnDot.classList.add('ok');
+      vpnText.textContent = "Tailnet link (good)";
+      return;
+    }
+
+    vpnText.textContent = "Tailscale required";
+  })();
+</script>
 
 </body>
 </html>
