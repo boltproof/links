@@ -14,15 +14,13 @@
     :root{
       --bp-blue:#215EAB;
       --bp-blue2:#3D8BFF;
-      --bp-ink:#0B1220;
-      --bp-ink2:#111827;
       --bp-text:#E5E7EB;
       --bp-muted:#9CA3AF;
+
       --bg-soft:#F5F7FB;
       --card:#FFFFFF;
-      --card-dark:#0B1220;
       --border:#E5E7EB;
-      --border-dark:#1F2937;
+
       --ok:#22C55E;
       --warn:#F59E0B;
     }
@@ -44,91 +42,118 @@
 
     .container{max-width:1120px;margin:0 auto;padding:0 16px}
 
-    /* ===== TOP BAR (match main site vibe) ===== */
+    /* ===== TOP BAR (uniform with boltproof.com vibe) ===== */
     header{
-      position:sticky; top:0; z-index:50;
-      background:linear-gradient(180deg, rgba(4,10,22,.98), rgba(7,15,30,.92));
-      border-bottom:1px solid rgba(148,163,184,.18);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: linear-gradient(180deg, rgba(4,10,22,.98), rgba(7,15,30,.92));
+      border-bottom: 1px solid rgba(148,163,184,.18);
       backdrop-filter: blur(10px);
     }
-    body.dark header{
-      border-bottom:1px solid rgba(148,163,184,.18);
+
+    .topbar{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 0;
     }
 
-    .nav{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:14px;
-      padding:14px 0;
-    }
-
+    /* Left: brand */
     .brand{
-      display:flex; align-items:center; gap:12px; min-width:240px;
-      color:var(--bp-text);
-      text-decoration:none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 260px;
+      color: #E5E7EB;
+      text-decoration: none;
     }
     .brand img{
-      width:54px; height:54px; object-fit:contain;
-      border-radius:12px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(148,163,184,.14);
-      padding:6px;
+      width: 56px;
+      height: 56px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(148,163,184,.14);
+      padding: 6px;
+      display:block;
     }
     .brand .title{
-      font-weight:850; letter-spacing:-.02em; line-height:1.05;
-      margin:0;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      margin: 0;
     }
     .brand .subtitle{
-      margin:2px 0 0; font-size:12px; color:rgba(229,231,235,.72);
-      white-space:nowrap;
+      margin: 2px 0 0;
+      font-size: 12px;
+      color: rgba(229,231,235,.72);
+      white-space: nowrap;
     }
 
+    /* Center: nav (ONE line, never wraps) */
     .nav-links{
-      display:flex; align-items:center; gap:18px;
-      flex-wrap:wrap;
-      justify-content:center;
+      flex: 1 1 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+
+      flex-wrap: nowrap;
+      white-space: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding: 0 6px;
     }
+    .nav-links::-webkit-scrollbar{display:none}
     .nav-links a{
-      color:rgba(229,231,235,.82);
-      font-weight:700;
-      font-size:14px;
-      text-decoration:none;
-      padding:8px 6px;
-      border-radius:10px;
-      transition:background .15s ease,color .15s ease;
+      color: rgba(229,231,235,.82);
+      font-weight: 800;
+      font-size: 14px;
+      text-decoration: none;
+      padding: 8px 10px;
+      border-radius: 12px;
+      transition: background .15s ease, color .15s ease;
     }
     .nav-links a:hover{
-      background:rgba(255,255,255,.06);
-      color:#fff;
+      background: rgba(255,255,255,.06);
+      color: #fff;
     }
 
+    /* Right: actions */
     .nav-actions{
-      display:flex; align-items:center; gap:10px; justify-content:flex-end;
-      flex-wrap:wrap;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: flex-end;
+      flex-wrap: nowrap;
+      white-space: nowrap;
     }
 
     .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:10px 14px;
-      border-radius:999px;
-      border:none;
-      font-size:13px;
-      font-weight:800;
-      cursor:pointer;
-      text-decoration:none;
-      user-select:none;
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:10px 14px;border-radius:999px;border:none;
+      font-size:13px;font-weight:900;cursor:pointer;
+      text-decoration:none;user-select:none;white-space:nowrap;
       transition:transform .12s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
-      white-space:nowrap;
     }
     .btn-primary{
       background:linear-gradient(180deg, #2B74D6, #215EAB);
       color:#fff;
       box-shadow:0 12px 26px rgba(33,94,171,.28);
     }
-    .btn-primary:hover{transform:translateY(-1px); background:linear-gradient(180deg, #3D8BFF, #2B74D6)}
+    .btn-primary:hover{
+      transform:translateY(-1px);
+      background:linear-gradient(180deg, #3D8BFF, #2B74D6);
+      text-decoration:none;
+    }
+
     .pill-btn{
       background:rgba(255,255,255,.06);
       border:1px solid rgba(148,163,184,.22);
-      color:rgba(229,231,235,.9);
+      color:rgba(229,231,235,.90);
       padding:9px 12px;
       gap:8px;
     }
@@ -207,7 +232,7 @@
     .pill{
       display:inline-flex;align-items:center;gap:8px;
       padding:6px 10px;border-radius:999px;
-      font-size:12px;font-weight:800;
+      font-size:12px;font-weight:900;
       border:1px solid rgba(148,163,184,.45);
       background:rgba(255,255,255,.92);
     }
@@ -275,7 +300,7 @@
     }
     body.dark .card{
       background:rgba(2,6,23,.70);
-      border-color:var(--border-dark);
+      border-color:rgba(31,41,55,.9);
       box-shadow:0 10px 40px rgba(0,0,0,.60);
     }
     body.dark .card:hover{
@@ -304,6 +329,7 @@
       text-transform:uppercase;letter-spacing:.08em;
     }
     body.dark .badge{background:rgba(2,6,23,.70);border-color:rgba(148,163,184,.18)}
+
     .actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
     .btn-small{padding:8px 12px;font-size:12px;border-radius:999px}
     .btn-open{
@@ -311,7 +337,11 @@
       color:#fff;border:0;
       box-shadow:0 8px 18px rgba(33,94,171,.20);
     }
-    .btn-open:hover{background:linear-gradient(180deg, #3D8BFF, #2B74D6); transform:translateY(-1px); text-decoration:none}
+    .btn-open:hover{
+      background:linear-gradient(180deg, #3D8BFF, #2B74D6);
+      transform:translateY(-1px);
+      text-decoration:none;
+    }
     .btn-copy{
       background:transparent;
       border:1px solid rgba(148,163,184,.55);
@@ -353,13 +383,14 @@
     @media (max-width:980px){
       .hero-row{grid-template-columns:minmax(0,1fr)}
       .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .nav-links{display:none} /* keep it clean on mobile */
+      .brand{min-width:0}
+      .brand .subtitle{display:none}
     }
     @media (max-width:640px){
       h1{font-size:28px}
       .grid{grid-template-columns:minmax(0,1fr)}
-      .brand{min-width:0}
       .app-name{max-width:220px}
+      .nav-actions .btn-primary{display:none} /* keep header clean on small screens */
     }
   </style>
 </head>
@@ -367,27 +398,26 @@
 <body>
 <header>
   <div class="container">
-    <div class="nav">
-      <!-- Left: brand -->
+    <div class="topbar">
+      <!-- Left: same logo as main site -->
       <a class="brand" href="https://boltproof.com" title="Back to boltproof.com">
-        <!-- swap this path if you have a specific icon on links.boltproof.com -->
-        <img src="assets/BoltProof%20Original%20Logo.png" alt="BoltProof" onerror="this.style.display='none'">
+        <img src="https://boltproof.com/assets/BoltProof%20Original%20Logo.png" alt="BoltProof">
         <div>
           <div class="title">BoltProof</div>
           <div class="subtitle">Backup · Synology · Small-Environment IT</div>
         </div>
       </a>
 
-      <!-- Middle: same-style menu links (yours go to sections on THIS page) -->
-      <nav class="nav-links" aria-label="Page">
-        <a href="#section-family">Request & Watch</a>
-        <a href="#section-admin">Automation & Downloads</a>
+      <!-- Center: top menu (anchors to sections on this page) -->
+      <nav class="nav-links" aria-label="Media portal sections">
+        <a href="#section-family">Request &amp; Watch</a>
+        <a href="#section-admin">Automation &amp; Downloads</a>
         <a href="#section-useful">Useful Links</a>
       </nav>
 
       <!-- Right: actions -->
       <div class="nav-actions">
-        <!-- Put your real booking link here -->
+        <!-- keep this pointing to your main site CTA -->
         <a class="btn btn-primary" href="https://boltproof.com/#contact" target="_blank" rel="noopener">Book a consultation</a>
 
         <button type="button" class="btn pill-btn" id="kidToggle" aria-pressed="false" title="Hide admin tools for family">
@@ -417,8 +447,8 @@
 
             <div class="pill-row" aria-label="Status">
               <div class="pill" title="These services require Tailscale / VPN access">
-                <span class="dot ok" id="vpnDot"></span>
-                <span id="vpnText">Tailscale required</span>
+                <span class="dot ok"></span>
+                <span>Tailscale required</span>
               </div>
               <div class="pill" title="Quick tip for family">
                 <span>🎯</span><span>Start with Jellyseerr</span>
@@ -451,18 +481,18 @@
       <div class="section" id="section-family">
         <div class="section-header">
           <div class="kicker">Recommended</div>
-          <h2>Request & Watch</h2>
+          <h2>Request &amp; Watch</h2>
           <div class="underline"></div>
         </div>
 
         <div class="grid">
-          <div class="card app-card" data-name="jellyseerr request requests movies tv" data-url="">
+          <div class="card app-card" data-name="jellyseerr request requests movies tv">
             <div class="card-top">
               <div class="app">
                 <div class="icon">🍿</div>
                 <div style="min-width:0;">
                   <div class="app-name">Jellyseerr</div>
-                  <div class="app-desc">Request movies & TV</div>
+                  <div class="app-desc">Request movies &amp; TV</div>
                 </div>
               </div>
               <div class="badge"><span class="dot ok"></span> Start here</div>
@@ -474,7 +504,7 @@
             </div>
           </div>
 
-          <div class="card app-card" data-name="plex dubai watch streaming library" data-url="">
+          <div class="card app-card" data-name="plex dubai watch streaming library">
             <div class="card-top">
               <div class="app">
                 <div class="icon">📺</div>
@@ -492,7 +522,7 @@
             </div>
           </div>
 
-          <div class="card app-card" data-name="plex ireland watch streaming library" data-url="">
+          <div class="card app-card" data-name="plex ireland watch streaming library">
             <div class="card-top">
               <div class="app">
                 <div class="icon">🇮🇪</div>
@@ -516,12 +546,12 @@
       <div class="section" id="section-admin">
         <div class="section-header">
           <div class="kicker">Admin</div>
-          <h2>Automation & Downloads</h2>
+          <h2>Automation &amp; Downloads</h2>
           <div class="underline"></div>
         </div>
 
         <div class="grid">
-          <div class="card app-card admin-card" data-name="radarr movies automation" data-url="http://100.91.121.17:7878">
+          <div class="card app-card admin-card" data-name="radarr movies automation">
             <div class="card-top">
               <div class="app"><div class="icon">🎬</div><div style="min-width:0;"><div class="app-name">Radarr</div><div class="app-desc">Movies automation</div></div></div>
               <div class="badge"><span class="dot"></span> Arr</div>
@@ -533,7 +563,7 @@
             </div>
           </div>
 
-          <div class="card app-card admin-card" data-name="sonarr tv series automation" data-url="http://100.91.121.17:8989">
+          <div class="card app-card admin-card" data-name="sonarr tv series automation">
             <div class="card-top">
               <div class="app"><div class="icon">📺</div><div style="min-width:0;"><div class="app-name">Sonarr</div><div class="app-desc">TV automation</div></div></div>
               <div class="badge"><span class="dot"></span> Arr</div>
@@ -545,7 +575,7 @@
             </div>
           </div>
 
-          <div class="card app-card admin-card" data-name="prowlarr indexers search" data-url="http://100.91.121.17:9696">
+          <div class="card app-card admin-card" data-name="prowlarr indexers search">
             <div class="card-top">
               <div class="app"><div class="icon">🔎</div><div style="min-width:0;"><div class="app-name">Prowlarr</div><div class="app-desc">Indexers manager</div></div></div>
               <div class="badge"><span class="dot"></span> Arr</div>
@@ -557,19 +587,19 @@
             </div>
           </div>
 
-          <div class="card app-card admin-card" data-name="lidarr music automation" data-url="">
+          <div class="card app-card admin-card" data-name="lidarr music automation">
             <div class="card-top">
               <div class="app"><div class="icon">🎧</div><div style="min-width:0;"><div class="app-name">Lidarr</div><div class="app-desc">Music automation</div></div></div>
               <div class="badge"><span class="dot"></span> Arr</div>
             </div>
-            <div class="muted" style="font-size:13px;">Track artists & grab albums automatically.</div>
+            <div class="muted" style="font-size:13px;">Track artists &amp; grab albums automatically.</div>
             <div class="actions">
               <a class="btn btn-small btn-open" id="lidarrOpen" href="#" target="_blank" rel="noopener">Open</a>
               <button class="btn btn-small btn-copy" id="lidarrCopy" data-copy="">Copy link</button>
             </div>
           </div>
 
-          <div class="card app-card admin-card" data-name="bazarr subtitles series" data-url="">
+          <div class="card app-card admin-card" data-name="bazarr subtitles series">
             <div class="card-top">
               <div class="app"><div class="icon">💬</div><div style="min-width:0;"><div class="app-name">Bazarr</div><div class="app-desc">Subtitles automation</div></div></div>
               <div class="badge"><span class="dot"></span> Utility</div>
@@ -581,7 +611,7 @@
             </div>
           </div>
 
-          <div class="card app-card admin-card" data-name="qbittorrent qbit torrent torrents download client" data-url="">
+          <div class="card app-card admin-card" data-name="qbittorrent qbit torrent torrents download client">
             <div class="card-top">
               <div class="app"><div class="icon">🧲</div><div style="min-width:0;"><div class="app-name">qBittorrent</div><div class="app-desc">Torrent client (WebUI)</div></div></div>
               <div class="badge"><span class="dot"></span> Client</div>
@@ -593,7 +623,7 @@
             </div>
           </div>
 
-          <div class="card app-card admin-card" data-name="sabnzbd usenet downloader" data-url="http://100.91.121.17:8777">
+          <div class="card app-card admin-card" data-name="sabnzbd usenet downloader">
             <div class="card-top">
               <div class="app"><div class="icon">⬇️</div><div style="min-width:0;"><div class="app-name">SABnzbd</div><div class="app-desc">Usenet download client</div></div></div>
               <div class="badge"><span class="dot"></span> Client</div>
@@ -606,10 +636,10 @@
           </div>
         </div>
 
-        <div class="hint">Kid Mode hides this section and keeps only Jellyseerr + Plex + Useful Links.</div>
+        <div class="hint">Kid Mode hides this entire section and keeps only Request &amp; Watch + Useful Links.</div>
       </div>
 
-      <!-- ✅ MOVED: USEFUL LINKS NOW BELOW Automation & Downloads -->
+      <!-- USEFUL LINKS (below Automation & Downloads) -->
       <div class="section" id="section-useful">
         <div class="section-header">
           <div class="kicker">Extras</div>
@@ -618,13 +648,13 @@
         </div>
 
         <div class="grid">
-          <div class="card app-card" data-name="musicbrainz music brainz metadata artist album" data-url="https://musicbrainz.org/">
+          <div class="card app-card" data-name="musicbrainz music brainz metadata artist album">
             <div class="card-top">
               <div class="app">
                 <div class="icon">🎼</div>
                 <div style="min-width:0;">
                   <div class="app-name">MusicBrainz</div>
-                  <div class="app-desc">Music metadata & artist pages</div>
+                  <div class="app-desc">Music metadata &amp; artist pages</div>
                 </div>
               </div>
               <div class="badge"><span class="dot ok"></span> Public</div>
@@ -657,8 +687,8 @@
   // ==============================
   // URLS
   // ==============================
-  const DUBAI_HOST = "http://100.91.121.17";
-  const IRELAND_PLEX = "http://100.64.152.38:32400/web/index.html#!/";
+  const DUBAI_HOST = "http://100.91.121.17"; // your Dubai NAS Tailscale IP
+  const IRELAND_PLEX = "http://100.64.152.38:32400/web/index.html#!/"; // Ireland NAS Plex
 
   const URLS = {
     jellyseerr: `${DUBAI_HOST}:5055/`,
