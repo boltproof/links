@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <title>BoltProof – Media Portal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="BoltProof media portal: Jellyseerr and the Arr stack links in one clean dashboard." />
+  <meta name="description" content="BoltProof media portal: Jellyseerr + Arr stack links in one clean dashboard." />
 
-  <!-- ✅ SAME favicon as boltproof.com -->
+  <!-- Same favicon as boltproof.com -->
   <link rel="icon" href="https://boltproof.com/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="https://boltproof.com/apple-touch-icon.png">
 
@@ -14,13 +14,12 @@
     :root{
       --bp-text:#E5E7EB;
       --bp-muted:#9CA3AF;
-
       --bg-soft:#F5F7FB;
       --card:#FFFFFF;
       --border:#E5E7EB;
-
       --ok:#22C55E;
       --warn:#F59E0B;
+      --line: rgba(148,163,184,.18);
     }
 
     *{box-sizing:border-box}
@@ -33,20 +32,15 @@
       line-height:1.6;
       transition:background .25s ease,color .25s ease;
     }
-    body.dark{
-      background:#020617;
-      color:var(--bp-text);
-    }
-
+    body.dark{background:#020617;color:var(--bp-text)}
     .container{max-width:1120px;margin:0 auto;padding:0 16px}
 
-    /* ===== TOP BAR ===== */
     header{
       position: sticky;
       top: 0;
       z-index: 50;
       background: linear-gradient(180deg, rgba(4,10,22,.98), rgba(7,15,30,.92));
-      border-bottom: 1px solid rgba(148,163,184,.18);
+      border-bottom: 1px solid var(--line);
       backdrop-filter: blur(10px);
     }
 
@@ -54,19 +48,16 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:16px;                     /* ✅ more gap overall */
+      gap:14px;
       padding:14px 0;
     }
 
     .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
+      display:flex;align-items:center;gap:12px;
       flex:0 0 auto;
-      min-width:200px;
-      max-width:250px;              /* ✅ slightly smaller so nav has room */
-      color:#E5E7EB;
-      text-decoration:none;
+      color:#E5E7EB;text-decoration:none;
+      min-width:0;
+      max-width:320px;
     }
     .brand img{
       width:56px;height:56px;object-fit:contain;
@@ -74,10 +65,10 @@
       background:rgba(255,255,255,.04);
       border:1px solid rgba(148,163,184,.14);
       padding:6px;
-      display:block;
       flex:0 0 auto;
+      display:block;
     }
-    .brand > div{min-width:0;}
+    .brand > div{min-width:0}
     .brand .title{font-weight:900;letter-spacing:-0.02em;line-height:1.05;margin:0;}
     .brand .subtitle{
       margin:2px 0 0;
@@ -88,40 +79,21 @@
       text-overflow:ellipsis;
     }
 
-    /* ✅ nav is a scroll container with internal padding so text never clips */
     .nav-links{
       flex:1 1 auto;
       min-width:0;
       display:flex;
       justify-content:center;
       align-items:center;
-      gap:18px;
-
-      flex-wrap:nowrap;
+      gap:14px;
       white-space:nowrap;
-      overflow-x:auto;
-      -webkit-overflow-scrolling:touch;
-      scrollbar-width:none;
-
-      padding:0 18px;               /* ✅ prevents left/right clipping */
-      margin:0 6px;                 /* ✅ extra breathing room from brand/actions */
     }
-    .nav-links::-webkit-scrollbar{display:none}
-
-    /* ✅ iPhone safe-area padding so nothing gets cut near edges */
-    @supports (padding: max(0px)) {
-      .nav-links{
-        padding-left: max(18px, env(safe-area-inset-left));
-        padding-right: max(18px, env(safe-area-inset-right));
-      }
-    }
-
     .nav-links a{
       color:rgba(229,231,235,.82);
-      font-weight:800;
+      font-weight:850;
       font-size:14px;
       text-decoration:none;
-      padding:8px 12px;             /* ✅ a touch wider tap target */
+      padding:8px 12px;
       border-radius:12px;
       transition: background .15s ease, color .15s ease;
     }
@@ -131,10 +103,8 @@
       flex:0 0 auto;
       display:flex;
       align-items:center;
-      gap:12px;                     /* ✅ more space near CTA */
+      gap:12px;
       white-space:nowrap;
-      padding-left:10px;            /* ✅ pushes away from nav area */
-      border-left:1px solid rgba(148,163,184,.16); /* ✅ visual separation */
     }
 
     .btn{
@@ -184,10 +154,31 @@
     .kid-on .switch{background:rgba(34,197,94,.60)}
     .kid-on .switch::after{left:18px}
 
-    /* ✅ anchor offset so section headers aren't hidden by sticky header */
+    /* anchor offset so section titles never hide behind sticky header */
     .section{ scroll-margin-top: 130px; }
 
-    /* ===== HERO ===== */
+    /* MOBILE MENU */
+    .menu-btn{display:none}
+    .menu-panel{
+      display:none;
+      border-top:1px solid var(--line);
+      padding:10px 0 14px;
+    }
+    header.menu-open .menu-panel{display:block}
+    .menu-panel a{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:10px 10px;
+      border-radius:12px;
+      color:rgba(229,231,235,.88);
+      text-decoration:none;
+      font-weight:900;
+    }
+    .menu-panel a:hover{background:rgba(255,255,255,.06);color:#fff}
+    .menu-panel small{color:rgba(229,231,235,.55);font-weight:800}
+
+    /* HERO */
     .hero{
       padding:38px 0 22px;
       background:
@@ -224,7 +215,6 @@
       gap:16px;
       align-items:start;
     }
-
     .callout{
       border-radius:14px;
       padding:12px;
@@ -250,10 +240,7 @@
       background:rgba(2,6,23,.75);
       border-color:rgba(148,163,184,.18);
     }
-    .dot{
-      width:8px;height:8px;border-radius:999px;background:var(--warn);
-      box-shadow:0 0 0 4px rgba(245,158,11,.14);
-    }
+    .dot{width:8px;height:8px;border-radius:999px;background:var(--warn);box-shadow:0 0 0 4px rgba(245,158,11,.14)}
     .dot.ok{background:var(--ok);box-shadow:0 0 0 4px rgba(34,197,94,.14)}
 
     .search{display:flex;gap:10px;align-items:center;margin-top:12px}
@@ -265,7 +252,6 @@
       font-size:14px;
       outline:none;
       background:rgba(255,255,255,.92);
-      transition:border-color .15s ease, box-shadow .15s ease;
     }
     body.dark .search input{
       background:rgba(2,6,23,.78);
@@ -279,17 +265,10 @@
 
     .section{padding:26px 0 0}
     .section-header{margin:18px 0 14px}
-    .kicker{
-      font-size:11px;text-transform:uppercase;letter-spacing:.16em;
-      color:#9CA3AF;margin-bottom:6px;
-    }
+    .kicker{font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:#9CA3AF;margin-bottom:6px}
     body.dark .kicker{color:#6B7280}
     h2{margin:0 0 10px;font-size:22px;letter-spacing:-.02em}
-    .underline{
-      width:64px;height:3px;border-radius:999px;
-      background:linear-gradient(90deg,#3B82F6,#22C55E);
-      opacity:.85;
-    }
+    .underline{width:64px;height:3px;border-radius:999px;background:linear-gradient(90deg,#3B82F6,#22C55E);opacity:.85}
 
     .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 
@@ -302,20 +281,13 @@
       transition:transform .12s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease;
       min-height:138px;
     }
-    .card:hover{
-      transform:translateY(-2px);
-      box-shadow:0 16px 40px rgba(15,23,42,.12);
-      border-color:rgba(148,163,184,.85);
-    }
     body.dark .card{
       background:rgba(2,6,23,.70);
       border-color:rgba(31,41,55,.9);
       box-shadow:0 10px 40px rgba(0,0,0,.60);
     }
-    body.dark .card:hover{
-      box-shadow:0 20px 60px rgba(0,0,0,.90);
-      border-color:#334155;
-    }
+    .card:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(15,23,42,.12);border-color:rgba(148,163,184,.85)}
+    body.dark .card:hover{box-shadow:0 20px 60px rgba(0,0,0,.90);border-color:#334155}
 
     .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px}
     .app{display:flex;align-items:center;gap:10px;min-width:0}
@@ -346,16 +318,8 @@
       color:#fff;border:0;
       box-shadow:0 8px 18px rgba(33,94,171,.20);
     }
-    .btn-open:hover{
-      background:linear-gradient(180deg, #3D8BFF, #2B74D6);
-      transform:translateY(-1px);
-      text-decoration:none;
-    }
-    .btn-copy{
-      background:transparent;
-      border:1px solid rgba(148,163,184,.55);
-      color:inherit;
-    }
+    .btn-open:hover{background:linear-gradient(180deg, #3D8BFF, #2B74D6);transform:translateY(-1px);text-decoration:none}
+    .btn-copy{background:transparent;border:1px solid rgba(148,163,184,.55);color:inherit}
     body.dark .btn-copy{border-color:rgba(148,163,184,.18)}
     .btn-copy:hover{background:rgba(227,236,255,.65)}
     body.dark .btn-copy:hover{background:rgba(59,130,246,.12)}
@@ -392,31 +356,25 @@
     @media (max-width:980px){
       .hero-row{grid-template-columns:minmax(0,1fr)}
       .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .brand{min-width:0; max-width:210px}
       .brand .subtitle{display:none}
     }
 
-    /* ✅ On small phones: keep nav readable and stop clipping */
-    @media (max-width:720px){
-      .topbar{gap:12px}
-      .brand img{width:48px;height:48px}
-      .brand{max-width:190px}
-      .nav-links{gap:14px;padding:0 16px}
-      .nav-actions{gap:10px}
+    /* Switch to menu BEFORE anything would clip */
+    @media (max-width:1020px){
+      .nav-links{display:none}
+      .menu-btn{display:inline-flex}
     }
 
     @media (max-width:640px){
       h1{font-size:28px}
       .grid{grid-template-columns:minmax(0,1fr)}
-      .app-name{max-width:220px}
-      .btn-cta{display:none} /* same as before */
-      .nav-actions{border-left:0;padding-left:0}
+      .btn-cta{display:none}
     }
   </style>
 </head>
 
 <body>
-<header>
+<header id="siteHeader">
   <div class="container">
     <div class="topbar">
       <a class="brand" href="https://boltproof.com" title="Back to boltproof.com">
@@ -429,11 +387,16 @@
 
       <nav class="nav-links" aria-label="Media portal sections">
         <a href="#section-family">Request &amp; Watch</a>
+        <a href="#section-arr">Arr Stack</a>
         <a href="#section-admin">Automation &amp; Downloads</a>
         <a href="#section-useful">Useful Links</a>
       </nav>
 
       <div class="nav-actions">
+        <button type="button" class="btn pill-btn menu-btn" id="menuToggle" aria-expanded="false" aria-controls="menuPanel">
+          <span>☰ Menu</span>
+        </button>
+
         <a class="btn btn-cta" href="https://cal.com/" target="_blank" rel="noopener">Book a consultation</a>
 
         <button type="button" class="btn pill-btn" id="kidToggle" aria-pressed="false" title="Hide admin tools for family">
@@ -446,6 +409,13 @@
           <span id="themeLabel">Dark</span>
         </button>
       </div>
+    </div>
+
+    <div class="menu-panel" id="menuPanel">
+      <a href="#section-family" class="menu-link">Request &amp; Watch <small>Jelly / Plex</small></a>
+      <a href="#section-arr" class="menu-link">Arr Stack <small>Sonarr / Radarr / Prowlarr…</small></a>
+      <a href="#section-admin" class="menu-link">Automation &amp; Downloads <small>qBittorrent</small></a>
+      <a href="#section-useful" class="menu-link">Useful Links <small>DSM / MusicBrainz</small></a>
     </div>
   </div>
 </header>
@@ -462,24 +432,17 @@
               Request in <strong>Jellyseerr</strong> → it downloads automatically → watch on <strong>Plex</strong>.
             </p>
 
-            <div class="pill-row" aria-label="Status">
-              <div class="pill" title="These services require Tailscale / VPN access">
-                <span class="dot ok"></span>
-                <span>Tailscale required</span>
-              </div>
-              <div class="pill" title="Quick tip for family">
-                <span>🎯</span><span>Start with Jellyseerr</span>
-              </div>
-              <div class="pill" title="Search & copy links">
-                <span>⚡</span><span>Search + Copy</span>
-              </div>
+            <div class="pill-row">
+              <div class="pill"><span class="dot ok"></span><span>Tailscale required</span></div>
+              <div class="pill"><span>🎯</span><span>Start with Jellyseerr</span></div>
+              <div class="pill"><span>⚡</span><span>Search + Copy</span></div>
             </div>
 
             <div class="search">
-              <input id="search" type="text" placeholder="Search apps… (e.g. jelly, plex, subtitles, qbittorrent, musicbrainz)" autocomplete="off" />
+              <input id="search" type="text" placeholder="Search apps… (jelly, sonarr, radarr, prowlarr, qbit…)" autocomplete="off" />
             </div>
 
-            <div class="hint" id="resultsHint">Tip: type “jelly” to find the request app fast.</div>
+            <div class="hint" id="resultsHint">Tip: type “prowlarr” or “qbit” to jump quickly.</div>
           </div>
 
           <div class="callout">
@@ -559,6 +522,77 @@
         </div>
       </div>
 
+      <!-- ARR STACK -->
+      <div class="section" id="section-arr">
+        <div class="section-header">
+          <div class="kicker">Automation</div>
+          <h2>Arr Stack</h2>
+          <div class="underline"></div>
+        </div>
+
+        <div class="grid">
+          <div class="card app-card admin-card" data-name="sonarr tv shows automation">
+            <div class="card-top">
+              <div class="app"><div class="icon">📡</div><div style="min-width:0;"><div class="app-name">Sonarr</div><div class="app-desc">TV automation</div></div></div>
+              <div class="badge"><span class="dot"></span> Arr</div>
+            </div>
+            <div class="muted" style="font-size:13px;">Monitor series and auto-download episodes.</div>
+            <div class="actions">
+              <a class="btn btn-small btn-open" id="sonarrOpen" href="#" target="_blank" rel="noopener">Open</a>
+              <button class="btn btn-small btn-copy" id="sonarrCopy" data-copy="">Copy link</button>
+            </div>
+          </div>
+
+          <div class="card app-card admin-card" data-name="radarr movies automation">
+            <div class="card-top">
+              <div class="app"><div class="icon">🎬</div><div style="min-width:0;"><div class="app-name">Radarr</div><div class="app-desc">Movie automation</div></div></div>
+              <div class="badge"><span class="dot"></span> Arr</div>
+            </div>
+            <div class="muted" style="font-size:13px;">Monitor movies and auto-download releases.</div>
+            <div class="actions">
+              <a class="btn btn-small btn-open" id="radarrOpen" href="#" target="_blank" rel="noopener">Open</a>
+              <button class="btn btn-small btn-copy" id="radarrCopy" data-copy="">Copy link</button>
+            </div>
+          </div>
+
+          <div class="card app-card admin-card" data-name="prowlarr indexers automation">
+            <div class="card-top">
+              <div class="app"><div class="icon">🧭</div><div style="min-width:0;"><div class="app-name">Prowlarr</div><div class="app-desc">Indexer manager</div></div></div>
+              <div class="badge"><span class="dot"></span> Arr</div>
+            </div>
+            <div class="muted" style="font-size:13px;">Central place for indexers used by Arr apps.</div>
+            <div class="actions">
+              <a class="btn btn-small btn-open" id="prowlarrOpen" href="#" target="_blank" rel="noopener">Open</a>
+              <button class="btn btn-small btn-copy" id="prowlarrCopy" data-copy="">Copy link</button>
+            </div>
+          </div>
+
+          <div class="card app-card admin-card" data-name="lidarr music automation">
+            <div class="card-top">
+              <div class="app"><div class="icon">🎧</div><div style="min-width:0;"><div class="app-name">Lidarr</div><div class="app-desc">Music automation</div></div></div>
+              <div class="badge"><span class="dot"></span> Arr</div>
+            </div>
+            <div class="muted" style="font-size:13px;">Track artists and grab albums.</div>
+            <div class="actions">
+              <a class="btn btn-small btn-open" id="lidarrOpen" href="#" target="_blank" rel="noopener">Open</a>
+              <button class="btn btn-small btn-copy" id="lidarrCopy" data-copy="">Copy link</button>
+            </div>
+          </div>
+
+          <div class="card app-card admin-card" data-name="bazarr subtitles series">
+            <div class="card-top">
+              <div class="app"><div class="icon">💬</div><div style="min-width:0;"><div class="app-name">Bazarr</div><div class="app-desc">Subtitles</div></div></div>
+              <div class="badge"><span class="dot"></span> Utility</div>
+            </div>
+            <div class="muted" style="font-size:13px;">Auto-fetch subtitles for your media.</div>
+            <div class="actions">
+              <a class="btn btn-small btn-open" id="bazarrOpen" href="#" target="_blank" rel="noopener">Open</a>
+              <button class="btn btn-small btn-copy" id="bazarrCopy" data-copy="">Copy link</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- ADMIN -->
       <div class="section" id="section-admin">
         <div class="section-header">
@@ -568,36 +602,12 @@
         </div>
 
         <div class="grid">
-          <div class="card app-card admin-card" data-name="lidarr music automation">
-            <div class="card-top">
-              <div class="app"><div class="icon">🎧</div><div style="min-width:0;"><div class="app-name">Lidarr</div><div class="app-desc">Music automation</div></div></div>
-              <div class="badge"><span class="dot"></span> Arr</div>
-            </div>
-            <div class="muted" style="font-size:13px;">Track artists &amp; grab albums automatically.</div>
-            <div class="actions">
-              <a class="btn btn-small btn-open" id="lidarrOpen" href="#" target="_blank" rel="noopener">Open</a>
-              <button class="btn btn-small btn-copy" id="lidarrCopy" data-copy="">Copy link</button>
-            </div>
-          </div>
-
-          <div class="card app-card admin-card" data-name="bazarr subtitles series">
-            <div class="card-top">
-              <div class="app"><div class="icon">💬</div><div style="min-width:0;"><div class="app-name">Bazarr</div><div class="app-desc">Subtitles automation</div></div></div>
-              <div class="badge"><span class="dot"></span> Utility</div>
-            </div>
-            <div class="muted" style="font-size:13px;">Auto-fetch subtitles for your series.</div>
-            <div class="actions">
-              <a class="btn btn-small btn-open" id="bazarrOpen" href="#" target="_blank" rel="noopener">Open</a>
-              <button class="btn btn-small btn-copy" id="bazarrCopy" data-copy="">Copy link</button>
-            </div>
-          </div>
-
           <div class="card app-card admin-card" data-name="qbittorrent qbit torrent torrents download client">
             <div class="card-top">
               <div class="app"><div class="icon">🧲</div><div style="min-width:0;"><div class="app-name">qBittorrent</div><div class="app-desc">Torrent client (WebUI)</div></div></div>
               <div class="badge"><span class="dot"></span> Client</div>
             </div>
-            <div class="muted" style="font-size:13px;">Manage torrent queue, status, speed, and seeding.</div>
+            <div class="muted" style="font-size:13px;">Runs behind Gluetun VPN.</div>
             <div class="actions">
               <a class="btn btn-small btn-open" id="qbitOpen" href="#" target="_blank" rel="noopener">Open</a>
               <button class="btn btn-small btn-copy" id="qbitCopy" data-copy="">Copy link</button>
@@ -605,7 +615,7 @@
           </div>
         </div>
 
-        <div class="hint">Kid Mode hides this entire section and keeps only Request &amp; Watch + Useful Links.</div>
+        <div class="hint">Kid Mode hides Arr Stack + Admin for family.</div>
       </div>
 
       <!-- USEFUL LINKS -->
@@ -617,15 +627,9 @@
         </div>
 
         <div class="grid">
-          <div class="card app-card" data-name="musicbrainz music brainz metadata artist album">
+          <div class="card app-card" data-name="musicbrainz music metadata artist album">
             <div class="card-top">
-              <div class="app">
-                <div class="icon">🎼</div>
-                <div style="min-width:0;">
-                  <div class="app-name">MusicBrainz</div>
-                  <div class="app-desc">Music metadata &amp; artist pages</div>
-                </div>
-              </div>
+              <div class="app"><div class="icon">🎼</div><div style="min-width:0;"><div class="app-name">MusicBrainz</div><div class="app-desc">Music metadata</div></div></div>
               <div class="badge"><span class="dot ok"></span> Public</div>
             </div>
             <div class="muted" style="font-size:13px;">Find correct artists/albums to import into Lidarr.</div>
@@ -635,36 +639,24 @@
             </div>
           </div>
 
-          <div class="card app-card" data-name="synology dsm dubai nas admin storage">
+          <div class="card app-card" data-name="synology dsm dubai nas admin">
             <div class="card-top">
-              <div class="app">
-                <div class="icon">🗄️</div>
-                <div style="min-width:0;">
-                  <div class="app-name">Dubai NAS (DSM)</div>
-                  <div class="app-desc">Synology admin portal</div>
-                </div>
-              </div>
+              <div class="app"><div class="icon">🗄️</div><div style="min-width:0;"><div class="app-name">Dubai NAS (DSM)</div><div class="app-desc">Synology portal</div></div></div>
               <div class="badge"><span class="dot"></span> Private</div>
             </div>
-            <div class="muted" style="font-size:13px;">DSM login for the Dubai NAS.</div>
+            <div class="muted" style="font-size:13px;">DSM login (Dubai NAS).</div>
             <div class="actions">
               <a class="btn btn-small btn-open" id="dsmDubaiOpen" href="#" target="_blank" rel="noopener">Open</a>
               <button class="btn btn-small btn-copy" id="dsmDubaiCopy" data-copy="">Copy link</button>
             </div>
           </div>
 
-          <div class="card app-card" data-name="synology dsm ireland nas admin storage">
+          <div class="card app-card" data-name="synology dsm ireland nas admin">
             <div class="card-top">
-              <div class="app">
-                <div class="icon">🇮🇪</div>
-                <div style="min-width:0;">
-                  <div class="app-name">Ireland NAS (DSM)</div>
-                  <div class="app-desc">Synology admin portal</div>
-                </div>
-              </div>
+              <div class="app"><div class="icon">🇮🇪</div><div style="min-width:0;"><div class="app-name">Ireland NAS (DSM)</div><div class="app-desc">Synology portal</div></div></div>
               <div class="badge"><span class="dot"></span> Private</div>
             </div>
-            <div class="muted" style="font-size:13px;">DSM login for the Ireland NAS.</div>
+            <div class="muted" style="font-size:13px;">DSM login (Ireland NAS).</div>
             <div class="actions">
               <a class="btn btn-small btn-open" id="dsmIrelandOpen" href="#" target="_blank" rel="noopener">Open</a>
               <button class="btn btn-small btn-copy" id="dsmIrelandCopy" data-copy="">Copy link</button>
@@ -680,8 +672,8 @@
 <footer>
   <div class="container">
     <div class="footer-row">
-      <div>© <span id="year"></span> BoltProof. All rights reserved.</div>
-      <div class="muted">Tailscale-only portal • clean and simple</div>
+      <div>© <span id="year"></span> BoltProof</div>
+      <div class="muted">Tailscale-only portal</div>
     </div>
   </div>
 </footer>
@@ -689,24 +681,45 @@
 <div class="toast" id="toast">Copied</div>
 
 <script>
-  // ==============================
-  // URLS (as provided by you)
-  // ==============================
   const DUBAI_HOST = "http://100.91.121.17";
   const IRELAND_HOST = "http://100.64.152.38";
 
   const URLS = {
     jellyseerr: `${DUBAI_HOST}:5055/`,
     plexDubai:  `${DUBAI_HOST}:32400/web/index.html`,
-    plexIreland: `${IRELAND_HOST}:32400/web/index.html#!/`,
-    lidarr: `${DUBAI_HOST}:8686/`,
-    bazarr: `${DUBAI_HOST}:6767/series`,
-    qbittorrent: `${DUBAI_HOST}:8081`,
-    dsmDubai: `${DUBAI_HOST}:5000/`,
+    plexIreland:`${IRELAND_HOST}:32400/web/index.html#!/`,
+
+    sonarr:     `${DUBAI_HOST}:8989/`,
+    radarr:     `${DUBAI_HOST}:7878/`,
+    prowlarr:   `${DUBAI_HOST}:9696/`,
+    lidarr:     `${DUBAI_HOST}:8686/`,
+    bazarr:     `${DUBAI_HOST}:6767/series`,
+
+    qbittorrent:`${DUBAI_HOST}:8081`,
+
+    dsmDubai:   `${DUBAI_HOST}:5000/`,
     dsmIreland: `${IRELAND_HOST}:5000/`
   };
 
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Mobile menu
+  (function(){
+    const header = document.getElementById('siteHeader');
+    const btn = document.getElementById('menuToggle');
+    const panel = document.getElementById('menuPanel');
+
+    function setOpen(open){
+      header.classList.toggle('menu-open', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      panel.style.display = open ? 'block' : 'none';
+    }
+
+    btn.addEventListener('click', () => setOpen(!header.classList.contains('menu-open')));
+    document.querySelectorAll('.menu-link').forEach(a=>a.addEventListener('click', ()=>setOpen(false)));
+    document.addEventListener('click', (e)=>{ if (!header.contains(e.target)) setOpen(false); });
+    setOpen(false);
+  })();
 
   // Theme toggle
   (function(){
@@ -734,7 +747,7 @@
     });
   })();
 
-  // Kid Mode toggle (persisted)
+  // Kid Mode (hides Arr + Admin)
   (function(){
     const body = document.body;
     const kidBtn = document.getElementById('kidToggle');
@@ -743,19 +756,19 @@
       body.classList.toggle('kid-on', on);
       kidBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
 
-      const adminSection = document.getElementById('section-admin');
-      if (adminSection) adminSection.classList.toggle('kid-hidden', on);
+      const arr = document.getElementById('section-arr');
+      const admin = document.getElementById('section-admin');
+      if (arr) arr.classList.toggle('kid-hidden', on);
+      if (admin) admin.classList.toggle('kid-hidden', on);
 
       localStorage.setItem('boltproof-kidmode', on ? 'on' : 'off');
     }
 
-    const stored = localStorage.getItem('boltproof-kidmode');
-    apply(stored === 'on');
-
+    apply(localStorage.getItem('boltproof-kidmode') === 'on');
     kidBtn.addEventListener('click', () => apply(!body.classList.contains('kid-on')));
   })();
 
-  // Wire up dynamic links
+  // Wire up links
   function setLink(openId, copyId, url){
     const openEl = document.getElementById(openId);
     const copyEl = document.getElementById(copyId);
@@ -766,9 +779,15 @@
   setLink("jellyOpen","jellyCopy", URLS.jellyseerr);
   setLink("plexDubaiOpen","plexDubaiCopy", URLS.plexDubai);
   setLink("plexIrelandOpen","plexIrelandCopy", URLS.plexIreland);
+
+  setLink("sonarrOpen","sonarrCopy", URLS.sonarr);
+  setLink("radarrOpen","radarrCopy", URLS.radarr);
+  setLink("prowlarrOpen","prowlarrCopy", URLS.prowlarr);
   setLink("lidarrOpen","lidarrCopy", URLS.lidarr);
   setLink("bazarrOpen","bazarrCopy", URLS.bazarr);
+
   setLink("qbitOpen","qbitCopy", URLS.qbittorrent);
+
   setLink("dsmDubaiOpen","dsmDubaiCopy", URLS.dsmDubai);
   setLink("dsmIrelandOpen","dsmIrelandCopy", URLS.dsmIreland);
 
@@ -810,18 +829,15 @@
   function applyFilter(q){
     const query = (q || "").trim().toLowerCase();
     let shown = 0;
-
     cards.forEach(card=>{
       const hay = (card.getAttribute('data-name') || "").toLowerCase();
       const visible = !query || hay.includes(query);
       if (visible) shown++;
       card.style.display = visible ? "" : "none";
     });
-
-    if (!query) hint.textContent = "Tip: type “jelly” to find the request app fast.";
+    if (!query) hint.textContent = "Tip: type “prowlarr” or “qbit” to jump quickly.";
     else hint.textContent = shown ? `${shown} match${shown===1?"":"es"} for “${q}”.` : `No matches for “${q}”.`;
   }
-
   search.addEventListener('input', (e)=>applyFilter(e.target.value));
 </script>
 
